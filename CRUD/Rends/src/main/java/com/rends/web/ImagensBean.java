@@ -2,15 +2,19 @@ package com.rends.web;
 
 import com.rends.domain.ImagensAttachment;
 import com.rends.domain.ImagensEntity;
+import com.rends.domain.ImagensImage;
 import com.rends.service.ImagensAttachmentService;
 import com.rends.service.ImagensService;
 import com.rends.service.security.SecurityWrapper;
 import com.rends.web.util.MessageFactory;
 
+import java.awt.image.BufferedImage;
 import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.Serializable;
+import java.util.Iterator;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -19,15 +23,21 @@ import javax.activation.MimetypesFileTypeMap;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 import javax.faces.view.ViewScoped;
+import javax.imageio.ImageIO;
+import javax.imageio.ImageWriter;
+import javax.imageio.stream.ImageOutputStream;
 import javax.inject.Inject;
 import javax.inject.Named;
 import javax.persistence.OptimisticLockException;
 import javax.persistence.PersistenceException;
 
 import org.apache.commons.io.IOUtils;
+import org.imgscalr.Scalr;
+import org.imgscalr.Scalr.Method;
 import org.primefaces.event.FileUploadEvent;
 import org.primefaces.model.DefaultStreamedContent;
 import org.primefaces.model.StreamedContent;
+import org.primefaces.model.UploadedFile;
 
 @Named("imagensBean")
 @ViewScoped
@@ -49,6 +59,9 @@ public class ImagensBean implements Serializable {
     @Inject
     private ImagensAttachmentService imagensAttachmentService;
     
+    UploadedFile uploadedImage;
+    byte[] uploadedImageContents;
+    
     public void prepareNewImagens() {
         reset();
         this.imagens = new ImagensEntity();
@@ -67,6 +80,40 @@ public class ImagensBean implements Serializable {
         String message;
         
         try {
+            
+            if (this.uploadedImage != null) {
+                try {
+
+                    BufferedImage image;
+                    try (InputStream in = new ByteArrayInputStream(uploadedImageContents)) {
+                        image = ImageIO.read(in);
+                    }
+                    image = Scalr.resize(image, Method.BALANCED, 300);
+
+                    ByteArrayOutputStream baos = new ByteArrayOutputStream();
+                    ImageOutputStream imageOS = ImageIO.createImageOutputStream(baos);
+                    Iterator<ImageWriter> imageWriters = ImageIO.getImageWritersByMIMEType(
+                            uploadedImage.getContentType());
+                    ImageWriter imageWriter = (ImageWriter) imageWriters.next();
+                    imageWriter.setOutput(imageOS);
+                    imageWriter.write(image);
+                    
+                    baos.close();
+                    imageOS.close();
+                    
+                    logger.log(Level.INFO, "Resized uploaded image from {0} to {1}", new Object[]{uploadedImageContents.length, baos.toByteArray().length});
+            
+                    ImagensImage imagensImage = new ImagensImage();
+                    imagensImage.setContent(baos.toByteArray());
+                    imagens.setImage(imagensImage);
+                } catch (Exception e) {
+                    FacesMessage facesMessage = MessageFactory.getMessage(
+                            "message_upload_exception");
+                    FacesContext.getCurrentInstance().addMessage(null, facesMessage);
+                    FacesContext.getCurrentInstance().validationFailed();
+                    return null;
+                }
+            }
             
             if (imagens.getId() != null) {
                 imagens = imagensService.update(imagens);
@@ -126,8 +173,39 @@ public class ImagensBean implements Serializable {
         
         imagensAttachments = null;
         
+        uploadedImage = null;
+        uploadedImageContents = null;
+        
     }
 
+    public void handleImageUpload(FileUploadEvent event) {
+        
+        Iterator<ImageWriter> imageWriters = ImageIO.getImageWritersByMIMEType(
+                event.getFile().getContentType());
+        if (!imageWriters.hasNext()) {
+            FacesMessage facesMessage = MessageFactory.getMessage(
+                    "message_image_type_not_supported");
+            FacesContext.getCurrentInstance().addMessage(null, facesMessage);
+            return;
+        }
+        
+        this.uploadedImage = event.getFile();
+        this.uploadedImageContents = event.getFile().getContents();
+        
+        FacesMessage message = new FacesMessage("Succesful", event.getFile().getFileName() + " is uploaded.");
+        FacesContext.getCurrentInstance().addMessage(null, message);
+    }
+    
+    public byte[] getUploadedImageContents() {
+        if (uploadedImageContents != null) {
+            return uploadedImageContents;
+        } else if (imagens != null && imagens.getImage() != null) {
+            imagens = imagensService.lazilyLoadImageToImagens(imagens);
+            return imagens.getImage().getContent();
+        }
+        return null;
+    }
+    
     public List<ImagensAttachment> getImagensAttachments() {
         if (this.imagensAttachments == null && this.imagens != null && this.imagens.getId() != null) {
             // The byte streams are not loaded from database with following line. This would cost too much.

@@ -2,11 +2,15 @@ package com.rends.domain;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
@@ -40,6 +44,12 @@ public class EstabelecimentoVisitaEntity extends BaseEntity implements Serializa
     @OneToOne(optional=true, cascade=CascadeType.DETACH)
     @JoinColumn(name="AUTOMOVEL_ID", nullable=true)
     private AutomovelEntity automovel;
+
+    @ManyToMany(fetch=FetchType.LAZY, cascade = CascadeType.DETACH)
+    @JoinTable(name="ESTABELECIMENTOVISITA_PERMISSAOACESSOS",
+              joinColumns={@JoinColumn(name="ESTABELECIMENTOVISITA_ID", referencedColumnName="ID")},
+              inverseJoinColumns={@JoinColumn(name="PERMISSAOACESSO_ID", referencedColumnName="ID")})
+    private List<PermissaoEstabelecimentoPessoaEntity> permissaoAcessos;
 
     public Date getDatahora() {
         return this.datahora;
@@ -79,6 +89,14 @@ public class EstabelecimentoVisitaEntity extends BaseEntity implements Serializa
 
     public void setAutomovel(AutomovelEntity automovel) {
         this.automovel = automovel;
+    }
+
+    public List<PermissaoEstabelecimentoPessoaEntity> getPermissaoAcessos() {
+        return permissaoAcessos;
+    }
+
+    public void setPermissaoAcessos(List<PermissaoEstabelecimentoPessoaEntity> permissaoEstabelecimentoPessoas) {
+        this.permissaoAcessos = permissaoEstabelecimentoPessoas;
     }
 
 }

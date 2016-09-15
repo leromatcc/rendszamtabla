@@ -61,6 +61,12 @@
             <h:panelGroup styleClass="ui-icon ui-icon-check" rendered="#{estabelecimentoVisita.acessoAutorizado}"/>
           </p:column>
 
+          <p:column headerText="#{messages.field_label_estabelecimentoVisita_permissaoAcesso_plural}" styleClass="action-column" exportable="false">
+            
+            <p:commandButton icon="ui-icon-transfer-e-w"  title="#{messages.field_label_estabelecimentoVisita_permissaoAcesso_plural}" action="#{'/pages/estabelecimentoVisita/estabelecimentoVisitaPermissaoAcesso?faces-redirect=true&amp;id='.concat(estabelecimentoVisita.id)}" />
+            
+          </p:column>
+          
           <p:column styleClass="action-column" headerText="#{messages.table_actions_column}" width="115" exportable="false">
             
             <p:commandButton action="#{'/pages/estabelecimentoVisita/estabelecimentoVisitaView?faces-redirect=true&amp;id='.concat(estabelecimentoVisita.id)}"

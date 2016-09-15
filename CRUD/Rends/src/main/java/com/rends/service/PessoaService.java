@@ -1,6 +1,7 @@
 package com.rends.service;
 
 import com.rends.domain.AutomovelEntity;
+import com.rends.domain.PermissaoEstabelecimentoPessoaEntity;
 import com.rends.domain.PessoaAutomovelEntity;
 import com.rends.domain.PessoaEntity;
 
@@ -49,6 +50,16 @@ public class PessoaService extends BaseService<PessoaEntity> implements Serializ
                 .setParameter("p", pessoa).executeUpdate();
     }
     
+    @Transactional
+    public List<PessoaEntity> findAvailablePessoas(PermissaoEstabelecimentoPessoaEntity permissaoEstabelecimentoPessoa) {
+        return entityManager.createQuery("SELECT o FROM Pessoa o where o.id not in (select o.id from Pessoa o join o.permissaoEstabelecimentoPessoas p where p = :p)", PessoaEntity.class).setParameter("p", permissaoEstabelecimentoPessoa).getResultList();
+    }
+
+    @Transactional
+    public List<PessoaEntity> findPessoasByPermissaoEstabelecimentoPessoa(PermissaoEstabelecimentoPessoaEntity permissaoEstabelecimentoPessoa) {
+        return entityManager.createQuery("SELECT o FROM Pessoa o where o.id in (select o.id from Pessoa o join o.permissaoEstabelecimentoPessoas p where p = :p)", PessoaEntity.class).setParameter("p", permissaoEstabelecimentoPessoa).getResultList();
+    }
+
     // Find all pessoaAutomovel which are not yet assigned to a pessoa
     @Transactional
     public List<PessoaEntity> findAvailablePessoa(PessoaAutomovelEntity pessoaAutomovel) {

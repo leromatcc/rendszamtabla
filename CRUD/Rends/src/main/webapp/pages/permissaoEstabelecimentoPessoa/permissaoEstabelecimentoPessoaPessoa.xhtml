@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:o="http://omnifaces.org/ui">
+<ui:composition template="/templates/layout.xhtml">
+  <ui:define name="content">
+  
+    <f:metadata>
+      <f:viewParam name="id" value="#{permissaoEstabelecimentoPessoaBean.permissaoEstabelecimentoPessoa}" converter="#{genericEntityConverter}" />
+      <f:viewAction action="#{permissaoEstabelecimentoPessoaBean.onPessoasDialog(permissaoEstabelecimentoPessoaBean.permissaoEstabelecimentoPessoa)}"/>
+    </f:metadata>
+    
+    <p:outputPanel styleClass="ui-fluid" rendered="#{not permissaoEstabelecimentoPessoaBean.isPermitted(permissaoEstabelecimentoPessoaBean.permissaoEstabelecimentoPessoa, 'permissaoEstabelecimentoPessoa:read')}">
+        <h:outputText value="#{messages.access_denied}" />
+    </p:outputPanel>
+    
+    <p:outputPanel id="permissaoEstabelecimentoPessoaPessoasPanel" rendered="#{permissaoEstabelecimentoPessoaBean.isPermitted(permissaoEstabelecimentoPessoaBean.permissaoEstabelecimentoPessoa, 'permissaoEstabelecimentoPessoa:read')}">
+        <h:form id="permissaoEstabelecimentoPessoaPessoasForm">
+            <ui:include src="/pages/permissaoEstabelecimentoPessoa/permissaoEstabelecimentoPessoaPessoaInclude.xhtml" />
+            <div style="margin:10px">
+                <p:commandButton value="#{messages.label_save}"
+                    icon="ui-icon-disk"
+                    actionListener="#{permissaoEstabelecimentoPessoaBean.onPessoasSubmit}"
+                    action="/pages/permissaoEstabelecimentoPessoa/permissaoEstabelecimentoPessoa?faces-redirect=true"
+                    update=":growlForm:growl"
+                    rendered="#{permissaoEstabelecimentoPessoaBean.isPermitted(permissaoEstabelecimentoPessoaBean.permissaoEstabelecimentoPessoa, 'permissaoEstabelecimentoPessoa:update')}"
+                    partialSubmit="true" process="@this" />
+                <p:commandButton value="#{messages.label_close}" icon="ui-icon-close"
+                                 action="/pages/permissaoEstabelecimentoPessoa/permissaoEstabelecimentoPessoa?faces-redirect=true" immediate="true" />
+            </div>
+        </h:form>
+    </p:outputPanel>
+    
+    <p:dialog dynamic="true" id="createPessoaDialog"
+        rendered="#{permissaoEstabelecimentoPessoaBean.isPermitted('pessoa:create')}"
+        header="#{messages.dialog_permissaoEstabelecimentoPessoa_create_pessoa}" modal="true"
+        widgetVar="createPessoaDialogWidget" maximizable="true">
+        <p:ajax event="close" listener="#{pessoaBean.reset}" />
+        <p:outputPanel id="createPessoaPanel">
+                <h:form id="createPessoaForm">
+                    <ui:include src="/pages/pessoa/pessoaEditInclude.xhtml">
+                        <ui:param name="hidePermissaoEstabelecimentoPessoaSelectInput" value="true" />
+                    </ui:include>
+                    <div style="text-align: center; margin: 10px">
+                        <p:commandButton
+                            action="#{permissaoEstabelecimentoPessoaBean.updatePessoa(pessoaBean.pessoa)}"
+                            value="#{messages.label_save}" icon="ui-icon-disk"
+                            actionListener="#{pessoaBean.persist}"
+                            update=":permissaoEstabelecimentoPessoaPessoasPanel :createPessoaPanel :growlForm:growl"
+                            oncomplete="if(!args.validationFailed) PF('createPessoaDialogWidget').hide()" />
+                        <p:commandButton value="#{messages.label_close}"
+                            icon="ui-icon-close"
+                            onclick="PF('createPessoaDialogWidget').hide()"
+                            type="button" />
+                    </div>
+                </h:form>
+            </p:outputPanel>
+    </p:dialog>
+    
+  </ui:define>
+  
+</ui:composition>
+</html>

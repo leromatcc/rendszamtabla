@@ -9,14 +9,19 @@
 
         <p:outputPanel styleClass="ui-fluid">
 
+            <p:panel id="imagensImage" header="#{messages.label_image}" style="max-width:400px">
+                <o:graphicImage value="#{imagensBean.uploadedImageContents}" dataURI="true"
+                    rendered="#{not empty imagensBean.uploadedImageContents}" width="200px" />
+                <p:fileUpload mode="advanced" fileLimit="1"
+                    fileUploadListener="#{imagensBean.handleImageUpload}" update="imagensImage :growlForm:growl"
+                    cancelLabel="#{messages.upload_cancel}" uploadLabel="#{messages.upload_upload}" label="#{messages.upload_choose}"
+                    multiple="false" style="overflow:auto;width:380px"/>
+            </p:panel>
             <p:panelGrid columns="3" columnClasses="ui-grid-col-4,ui-grid-col-6,ui-grid-col-2" layout="grid" style="max-width:400px">
-            
                 <h:outputLabel value="#{messages.field_label_imagens_descricao}:" for="descricaoEditInput" />
                 <p:inputText value="#{imagensBean.imagens.descricao}" id="descricaoEditInput" 
                     label="#{messages.field_label_imagens_descricao}" />
                 <p:message for="descricaoEditInput" display="icon" />
-
             </p:panelGrid>
-
         </p:outputPanel>
 </html>

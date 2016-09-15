@@ -28,6 +28,11 @@
               <p:columnToggler datasource="imagensTable" trigger="toggler" />
           </f:facet>
           
+          <p:column headerText="#{messages.label_image}">
+              <o:graphicImage value="#{imagens.image.content}" dataURI="true"
+                  rendered="#{not empty imagens.image.content}" width="50px"/>
+          </p:column>
+          
           <p:column  headerText="#{messages.field_label_imagens_descricao}" sortBy="#{imagens.descricao}" filterBy="#{imagens.descricao}">
             <f:facet name="filter">
                 <p:inputText id="descricaoFilter"

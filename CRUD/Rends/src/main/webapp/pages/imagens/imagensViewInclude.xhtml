@@ -11,6 +11,11 @@
         <h:outputText value="#{messages.access_denied}" />
     </p:outputPanel>
     
+    <p:panel header="#{messages.label_image}" style="max-width:400px" rendered="#{imagensBean.isPermitted(imagensBean.imagens, 'imagens:read')}">
+        <o:graphicImage value="#{imagensBean.uploadedImageContents}" dataURI="true"
+            rendered="#{not empty imagensBean.uploadedImageContents}" width="200px"/>
+    </p:panel>
+    
     <h:panelGrid columns="2" styleClass="dialog" columnClasses="col1,col2" rendered="#{imagensBean.isPermitted(imagensBean.imagens, 'imagens:read')}">
         
         <h:outputText value="#{messages.field_label_imagens_descricao}:" />

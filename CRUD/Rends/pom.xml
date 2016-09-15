@@ -67,6 +67,13 @@
         </dependency>
         
         <dependency>
+            <!-- Resizing uploaded images -->
+            <groupId>org.imgscalr</groupId>
+            <artifactId>imgscalr-lib</artifactId>
+            <version>4.2</version>
+        </dependency>
+        
+        <dependency>
             <groupId>org.apache.shiro</groupId>
             <artifactId>shiro-core</artifactId>
             <version>1.2.5</version>

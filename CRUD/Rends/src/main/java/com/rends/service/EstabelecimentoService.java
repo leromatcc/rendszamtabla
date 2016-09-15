@@ -3,6 +3,8 @@ package com.rends.service;
 import com.rends.domain.CameraEntity;
 import com.rends.domain.EstabelecimentoEntity;
 import com.rends.domain.EstabelecimentoVisitaEntity;
+import com.rends.domain.PermissaoEstabelecimentoPessoaEntity;
+import com.rends.domain.PessoaEntity;
 
 import java.io.Serializable;
 import java.util.List;
@@ -39,6 +41,8 @@ public class EstabelecimentoService extends BaseService<EstabelecimentoEntity> i
         
         this.cutAllEstabelecimentoEstabelecimentoVisitasAssignments(estabelecimento);
         
+        this.cutAllEstabelecimentoPermissaoEstabelecimentoPessoasAssignments(estabelecimento);
+        
     }
 
     // Remove all assignments from all estabelecimentoVisita a estabelecimento. Called before delete a estabelecimento.
@@ -46,6 +50,14 @@ public class EstabelecimentoService extends BaseService<EstabelecimentoEntity> i
     private void cutAllEstabelecimentoEstabelecimentoVisitasAssignments(EstabelecimentoEntity estabelecimento) {
         entityManager
                 .createQuery("UPDATE EstabelecimentoVisita c SET c.estabelecimento = NULL WHERE c.estabelecimento = :p")
+                .setParameter("p", estabelecimento).executeUpdate();
+    }
+    
+    // Remove all assignments from all permissaoEstabelecimentoPessoa a estabelecimento. Called before delete a estabelecimento.
+    @Transactional
+    private void cutAllEstabelecimentoPermissaoEstabelecimentoPessoasAssignments(EstabelecimentoEntity estabelecimento) {
+        entityManager
+                .createQuery("UPDATE PermissaoEstabelecimentoPessoa c SET c.estabelecimento = NULL WHERE c.estabelecimento = :p")
                 .setParameter("p", estabelecimento).executeUpdate();
     }
     
@@ -68,6 +80,18 @@ public class EstabelecimentoService extends BaseService<EstabelecimentoEntity> i
         }
         return entityManager.createQuery(
                 "SELECT o FROM Estabelecimento o where o.id NOT IN (SELECT p.estabelecimento.id FROM EstabelecimentoVisita p where p.estabelecimento.id != :id)", EstabelecimentoEntity.class)
+                .setParameter("id", id).getResultList();    
+    }
+
+    // Find all permissaoEstabelecimentoPessoa which are not yet assigned to a estabelecimento
+    @Transactional
+    public List<EstabelecimentoEntity> findAvailableEstabelecimento(PermissaoEstabelecimentoPessoaEntity permissaoEstabelecimentoPessoa) {
+        Long id = -1L;
+        if (permissaoEstabelecimentoPessoa != null && permissaoEstabelecimentoPessoa.getEstabelecimento() != null && permissaoEstabelecimentoPessoa.getEstabelecimento().getId() != null) {
+            id = permissaoEstabelecimentoPessoa.getEstabelecimento().getId();
+        }
+        return entityManager.createQuery(
+                "SELECT o FROM Estabelecimento o where o.id NOT IN (SELECT p.estabelecimento.id FROM PermissaoEstabelecimentoPessoa p where p.estabelecimento.id != :id)", EstabelecimentoEntity.class)
                 .setParameter("id", id).getResultList();    
     }
 

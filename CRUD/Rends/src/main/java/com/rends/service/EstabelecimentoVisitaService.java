@@ -1,6 +1,8 @@
 package com.rends.service;
 
 import com.rends.domain.EstabelecimentoVisitaEntity;
+import com.rends.domain.PermissaoEstabelecimentoPessoaEntity;
+import com.rends.domain.PessoaEntity;
 
 import java.io.Serializable;
 import java.util.List;
@@ -37,4 +39,21 @@ public class EstabelecimentoVisitaService extends BaseService<EstabelecimentoVis
         
     }
 
+    @Transactional
+    public List<EstabelecimentoVisitaEntity> findAvailableEstabelecimentoVisitas(PermissaoEstabelecimentoPessoaEntity permissaoEstabelecimentoPessoa) {
+        return entityManager.createQuery("SELECT o FROM EstabelecimentoVisita o where o.id not in (select o.id from EstabelecimentoVisita o join o.permissaoAcessos p where p = :p)", EstabelecimentoVisitaEntity.class).setParameter("p", permissaoEstabelecimentoPessoa).getResultList();
+    }
+
+    @Transactional
+    public List<EstabelecimentoVisitaEntity> findEstabelecimentoVisitasByPermissaoAcesso(PermissaoEstabelecimentoPessoaEntity permissaoEstabelecimentoPessoa) {
+        return entityManager.createQuery("SELECT o FROM EstabelecimentoVisita o where o.id in (select o.id from EstabelecimentoVisita o join o.permissaoAcessos p where p = :p)", EstabelecimentoVisitaEntity.class).setParameter("p", permissaoEstabelecimentoPessoa).getResultList();
+    }
+
+    @Transactional
+    public EstabelecimentoVisitaEntity fetchPermissaoAcessos(EstabelecimentoVisitaEntity estabelecimentoVisita) {
+        estabelecimentoVisita = find(estabelecimentoVisita.getId());
+        estabelecimentoVisita.getPermissaoAcessos().size();
+        return estabelecimentoVisita;
+    }
+    
 }

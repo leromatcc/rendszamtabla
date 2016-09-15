@@ -1,9 +1,13 @@
 package com.rends.domain;
 
 import java.io.Serializable;
+import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.Size;
 
@@ -24,6 +28,17 @@ public class PessoaEntity extends BaseEntity implements Serializable {
     @Size(max = 50)
     @Column(length = 50, name="\"idade\"")
     private String idade;
+
+    public void setPermissaoEstabelecimentoPessoas(List<PermissaoEstabelecimentoPessoaEntity> permissaoEstabelecimentoPessoas) {
+        this.permissaoEstabelecimentoPessoas = permissaoEstabelecimentoPessoas;
+    }
+
+    public List<PermissaoEstabelecimentoPessoaEntity> getPermissaoEstabelecimentoPessoas() {
+        return permissaoEstabelecimentoPessoas;
+    }
+
+    @ManyToMany(mappedBy="pessoas", fetch=FetchType.LAZY, cascade = CascadeType.DETACH)
+    private List<PermissaoEstabelecimentoPessoaEntity> permissaoEstabelecimentoPessoas;
 
     public String getNome() {
         return this.nome;

@@ -144,6 +144,22 @@ public class RolePermissionsPublisher {
             
             rolePermissionService.save(new RolePermission(UserRole.Registered, "imagemCamera:delete"));
             
+            rolePermissionService.save(new RolePermission(UserRole.Administrator, "permissaoEstabelecimentoPessoa:create"));
+            
+            rolePermissionService.save(new RolePermission(UserRole.Administrator, "permissaoEstabelecimentoPessoa:read"));
+            
+            rolePermissionService.save(new RolePermission(UserRole.Administrator, "permissaoEstabelecimentoPessoa:update"));
+            
+            rolePermissionService.save(new RolePermission(UserRole.Administrator, "permissaoEstabelecimentoPessoa:delete"));
+            
+            rolePermissionService.save(new RolePermission(UserRole.Registered, "permissaoEstabelecimentoPessoa:create"));
+            
+            rolePermissionService.save(new RolePermission(UserRole.Registered, "permissaoEstabelecimentoPessoa:read"));
+            
+            rolePermissionService.save(new RolePermission(UserRole.Registered, "permissaoEstabelecimentoPessoa:update"));
+            
+            rolePermissionService.save(new RolePermission(UserRole.Registered, "permissaoEstabelecimentoPessoa:delete"));
+            
             rolePermissionService.save(new RolePermission(UserRole.Administrator, "user:*"));
             
             logger.info("Successfully created permissions for user roles.");

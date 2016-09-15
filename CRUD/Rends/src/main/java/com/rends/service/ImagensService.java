@@ -9,6 +9,7 @@ import java.util.List;
 
 import javax.inject.Inject;
 import javax.inject.Named;
+import javax.persistence.PersistenceUnitUtil;
 import javax.transaction.Transactional;
 
 @Named
@@ -26,7 +27,7 @@ public class ImagensService extends BaseService<ImagensEntity> implements Serial
     @Transactional
     public List<ImagensEntity> findAllImagensEntities() {
         
-        return entityManager.createQuery("SELECT o FROM Imagens o ", ImagensEntity.class).getResultList();
+        return entityManager.createQuery("SELECT o FROM Imagens o LEFT JOIN FETCH o.image", ImagensEntity.class).getResultList();
     }
     
     @Override
@@ -67,4 +68,14 @@ public class ImagensService extends BaseService<ImagensEntity> implements Serial
                 .setParameter("id", id).getResultList();    
     }
 
+    @Transactional
+    public ImagensEntity lazilyLoadImageToImagens(ImagensEntity imagens) {
+        PersistenceUnitUtil u = entityManager.getEntityManagerFactory().getPersistenceUnitUtil();
+        if (!u.isLoaded(imagens, "image") && imagens.getId() != null) {
+            imagens = find(imagens.getId());
+            imagens.getImage().getId();
+        }
+        return imagens;
+    }
+    
 }
