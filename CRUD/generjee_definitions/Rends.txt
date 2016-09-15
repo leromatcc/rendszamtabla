@@ -568,6 +568,7 @@
       "id": 9,
       "lookupField": "1",
       "attachmentsEnabled": true,
+      "imageUploadEnabled": true,
       "aclEnabled": true,
       "authorization": [
         {
