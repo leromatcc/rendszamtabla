@@ -1,11 +1,11 @@
 package com.rends.web;
 
 import com.rends.domain.AutomovelEntity;
+import com.rends.domain.EstabelecimentoEntity;
 import com.rends.domain.EstabelecimentoVisitaEntity;
-import com.rends.domain.PessoaEntity;
 import com.rends.service.AutomovelService;
+import com.rends.service.EstabelecimentoService;
 import com.rends.service.EstabelecimentoVisitaService;
-import com.rends.service.PessoaService;
 import com.rends.service.security.SecurityWrapper;
 import com.rends.web.util.MessageFactory;
 
@@ -38,12 +38,12 @@ public class EstabelecimentoVisitaBean implements Serializable {
     private EstabelecimentoVisitaService estabelecimentoVisitaService;
     
     @Inject
-    private PessoaService pessoaService;
+    private EstabelecimentoService estabelecimentoService;
     
     @Inject
     private AutomovelService automovelService;
     
-    private List<PessoaEntity> availableEstacionamentoList;
+    private List<EstabelecimentoEntity> availableEstabelecimentoList;
     
     private List<AutomovelEntity> availableAutomovelList;
     
@@ -122,25 +122,25 @@ public class EstabelecimentoVisitaBean implements Serializable {
         estabelecimentoVisita = null;
         estabelecimentoVisitaList = null;
         
-        availableEstacionamentoList = null;
+        availableEstabelecimentoList = null;
         
         availableAutomovelList = null;
         
     }
 
-    // Get a List of all estacionamento
-    public List<PessoaEntity> getAvailableEstacionamento() {
-        if (this.availableEstacionamentoList == null) {
-            this.availableEstacionamentoList = pessoaService.findAvailableEstacionamento(this.estabelecimentoVisita);
+    // Get a List of all estabelecimento
+    public List<EstabelecimentoEntity> getAvailableEstabelecimento() {
+        if (this.availableEstabelecimentoList == null) {
+            this.availableEstabelecimentoList = estabelecimentoService.findAvailableEstabelecimento(this.estabelecimentoVisita);
         }
-        return this.availableEstacionamentoList;
+        return this.availableEstabelecimentoList;
     }
     
-    // Update estacionamento of the current estabelecimentoVisita
-    public void updateEstacionamento(PessoaEntity pessoa) {
-        this.estabelecimentoVisita.setEstacionamento(pessoa);
-        // Maybe we just created and assigned a new estacionamento. So reset the availableEstacionamentoList.
-        availableEstacionamentoList = null;
+    // Update estabelecimento of the current estabelecimentoVisita
+    public void updateEstabelecimento(EstabelecimentoEntity estabelecimento) {
+        this.estabelecimentoVisita.setEstabelecimento(estabelecimento);
+        // Maybe we just created and assigned a new estabelecimento. So reset the availableEstabelecimentoList.
+        availableEstabelecimentoList = null;
     }
     
     // Get a List of all automovel

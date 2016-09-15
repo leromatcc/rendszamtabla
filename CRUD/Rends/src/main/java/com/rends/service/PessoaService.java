@@ -1,7 +1,6 @@
 package com.rends.service;
 
 import com.rends.domain.AutomovelEntity;
-import com.rends.domain.EstabelecimentoVisitaEntity;
 import com.rends.domain.PessoaAutomovelEntity;
 import com.rends.domain.PessoaEntity;
 
@@ -40,8 +39,6 @@ public class PessoaService extends BaseService<PessoaEntity> implements Serializ
         
         this.cutAllPessoaPessoaAutomovelsAssignments(pessoa);
         
-        this.cutAllEstacionamentoEstabelecimentoVisitasAssignments(pessoa);
-        
     }
 
     // Remove all assignments from all pessoaAutomovel a pessoa. Called before delete a pessoa.
@@ -49,14 +46,6 @@ public class PessoaService extends BaseService<PessoaEntity> implements Serializ
     private void cutAllPessoaPessoaAutomovelsAssignments(PessoaEntity pessoa) {
         entityManager
                 .createQuery("UPDATE PessoaAutomovel c SET c.pessoa = NULL WHERE c.pessoa = :p")
-                .setParameter("p", pessoa).executeUpdate();
-    }
-    
-    // Remove all assignments from all estabelecimentoVisita a pessoa. Called before delete a pessoa.
-    @Transactional
-    private void cutAllEstacionamentoEstabelecimentoVisitasAssignments(PessoaEntity pessoa) {
-        entityManager
-                .createQuery("UPDATE EstabelecimentoVisita c SET c.estacionamento = NULL WHERE c.estacionamento = :p")
                 .setParameter("p", pessoa).executeUpdate();
     }
     
@@ -69,18 +58,6 @@ public class PessoaService extends BaseService<PessoaEntity> implements Serializ
         }
         return entityManager.createQuery(
                 "SELECT o FROM Pessoa o where o.id NOT IN (SELECT p.pessoa.id FROM PessoaAutomovel p where p.pessoa.id != :id)", PessoaEntity.class)
-                .setParameter("id", id).getResultList();    
-    }
-
-    // Find all estabelecimentoVisita which are not yet assigned to a pessoa
-    @Transactional
-    public List<PessoaEntity> findAvailableEstacionamento(EstabelecimentoVisitaEntity estabelecimentoVisita) {
-        Long id = -1L;
-        if (estabelecimentoVisita != null && estabelecimentoVisita.getEstacionamento() != null && estabelecimentoVisita.getEstacionamento().getId() != null) {
-            id = estabelecimentoVisita.getEstacionamento().getId();
-        }
-        return entityManager.createQuery(
-                "SELECT o FROM Pessoa o where o.id NOT IN (SELECT p.estacionamento.id FROM EstabelecimentoVisita p where p.estacionamento.id != :id)", PessoaEntity.class)
                 .setParameter("id", id).getResultList();    
     }
 

@@ -457,12 +457,12 @@
         },
         {
           "id": 2,
-          "name": "estacionamento",
+          "name": "estabelecimento",
           "type": "Relation",
           "editable": true,
           "showInTable": true,
           "referenceType": "1:1",
-          "referenceEntity": "Pessoa"
+          "referenceEntity": "Estabelecimento"
         },
         {
           "id": 3,
@@ -475,7 +475,7 @@
         },
         {
           "id": 4,
-          "name": "AcessoAutorizado",
+          "name": "acessoAutorizado",
           "type": "Boolean",
           "editable": true,
           "showInTable": true,
@@ -723,5 +723,5 @@
       }
     ]
   },
-  "guid": "1032851b-4a52-46b2-353c-8e9011d98c7c"
+  "guid": "008b3758-6cbd-4d9c-0c74-7aae36042ea0"
 }

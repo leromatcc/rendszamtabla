@@ -26,8 +26,8 @@ public class EstabelecimentoVisitaEntity extends BaseEntity implements Serializa
     private Date datahora;
 
     @OneToOne(optional=true, cascade=CascadeType.DETACH)
-    @JoinColumn(name="ESTACIONAMENTO_ID", nullable=true)
-    private PessoaEntity estacionamento;
+    @JoinColumn(name="ESTABELECIMENTO_ID", nullable=true)
+    private EstabelecimentoEntity estabelecimento;
 
     @Size(max = 1000)
     @Column(length = 1000, name="\"placaAnalisar\"")
@@ -49,12 +49,12 @@ public class EstabelecimentoVisitaEntity extends BaseEntity implements Serializa
         this.datahora = datahora;
     }
 
-    public PessoaEntity getEstacionamento() {
-        return this.estacionamento;
+    public EstabelecimentoEntity getEstabelecimento() {
+        return this.estabelecimento;
     }
 
-    public void setEstacionamento(PessoaEntity estacionamento) {
-        this.estacionamento = estacionamento;
+    public void setEstabelecimento(EstabelecimentoEntity estabelecimento) {
+        this.estabelecimento = estabelecimento;
     }
 
     public String getPlacaAnalisar() {

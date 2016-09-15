@@ -26,26 +26,26 @@
         </h:form>
     </p:outputPanel>
     
-    <p:dialog dynamic="true" id="createEstacionamentoFromEditDialog"
-        rendered="#{estabelecimentoVisitaBean.isPermitted('pessoa:create')}"
-        header="#{messages.dialog_estabelecimentoVisita_create_estacionamento}" modal="true"
-        widgetVar="createEstacionamentoFromEditDialogWidget" maximizable="true">
-        <p:ajax event="close" listener="#{pessoaBean.reset}" />
-        <p:outputPanel id="createEstacionamentoFromEditPanel">
-            <h:form id="createEstacionamentoFromEditForm">
-                <ui:include src="/pages/pessoa/pessoaEditInclude.xhtml">
+    <p:dialog dynamic="true" id="createEstabelecimentoFromEditDialog"
+        rendered="#{estabelecimentoVisitaBean.isPermitted('estabelecimento:create')}"
+        header="#{messages.dialog_estabelecimentoVisita_create_estabelecimento}" modal="true"
+        widgetVar="createEstabelecimentoFromEditDialogWidget" maximizable="true">
+        <p:ajax event="close" listener="#{estabelecimentoBean.reset}" />
+        <p:outputPanel id="createEstabelecimentoFromEditPanel">
+            <h:form id="createEstabelecimentoFromEditForm">
+                <ui:include src="/pages/estabelecimento/estabelecimentoEditInclude.xhtml">
                     <ui:param name="hideEstabelecimentoVisitaSelectInput" value="true" />
                 </ui:include>
                 <div style="text-align: center; margin: 10px">
                     <p:commandButton
-                        action="#{estabelecimentoVisitaBean.updateEstacionamento(pessoaBean.pessoa)}"
+                        action="#{estabelecimentoVisitaBean.updateEstabelecimento(estabelecimentoBean.estabelecimento)}"
                         value="#{messages.label_save}" icon="ui-icon-disk"
-                        actionListener="#{pessoaBean.persist}"
-                        update=":editEstabelecimentoVisitaForm:estacionamentoSelectInput :createEstacionamentoFromEditPanel :growlForm:growl"
-                        oncomplete="if(!args.validationFailed) PF('createEstacionamentoFromEditDialogWidget').hide()" />
+                        actionListener="#{estabelecimentoBean.persist}"
+                        update=":editEstabelecimentoVisitaForm:estabelecimentoSelectInput :createEstabelecimentoFromEditPanel :growlForm:growl"
+                        oncomplete="if(!args.validationFailed) PF('createEstabelecimentoFromEditDialogWidget').hide()" />
                     <p:commandButton value="#{messages.label_close}"
                         icon="ui-icon-close"
-                        onclick="PF('createEstacionamentoFromEditDialogWidget').hide()"
+                        onclick="PF('createEstabelecimentoFromEditDialogWidget').hide()"
                         type="button" />
                 </div>
             </h:form>

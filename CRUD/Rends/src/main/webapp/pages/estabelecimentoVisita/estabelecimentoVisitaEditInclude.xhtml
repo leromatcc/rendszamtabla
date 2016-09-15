@@ -15,30 +15,30 @@
                 <p:calendar id="datahoraEditInput" navigator="true" value="#{estabelecimentoVisitaBean.estabelecimentoVisita.datahora}" label="#{messages.field_label_estabelecimentoVisita_datahora}" />
                 <p:message for="datahoraEditInput" display="icon" />
 
-                <h:outputLabel value="#{messages.field_label_estabelecimentoVisita_estacionamento}:" for="estacionamentoSelectInput" rendered="#{not hideEstacionamentoSelectInput}"/>
-                <h:panelGroup rendered="#{not hideEstacionamentoSelectInput}">
-                    <p:selectOneMenu value="#{estabelecimentoVisitaBean.estabelecimentoVisita.estacionamento}"
-                                    id="estacionamentoSelectInput">
+                <h:outputLabel value="#{messages.field_label_estabelecimentoVisita_estabelecimento}:" for="estabelecimentoSelectInput" rendered="#{not hideEstabelecimentoSelectInput}"/>
+                <h:panelGroup rendered="#{not hideEstabelecimentoSelectInput}">
+                    <p:selectOneMenu value="#{estabelecimentoVisitaBean.estabelecimentoVisita.estabelecimento}"
+                                    id="estabelecimentoSelectInput">
                         <f:selectItem noSelectionOption="true" itemLabel="" />
-                        <f:selectItems value="#{estabelecimentoVisitaBean.availableEstacionamento}" 
-                                    var="pessoa" 
-                                    itemLabel="#{pessoa.nome}"
-                                    itemValue="#{pessoa}" />
-                        <o:converter converterId="omnifaces.SelectItemsConverter" list="#{estabelecimentoVisitaBean.availableEstacionamento}" />
+                        <f:selectItems value="#{estabelecimentoVisitaBean.availableEstabelecimento}" 
+                                    var="estabelecimento" 
+                                    itemLabel="#{estabelecimento.descricao}"
+                                    itemValue="#{estabelecimento}" />
+                        <o:converter converterId="omnifaces.SelectItemsConverter" list="#{estabelecimentoVisitaBean.availableEstabelecimento}" />
                     </p:selectOneMenu>
                 </h:panelGroup>
-                <h:panelGroup rendered="#{not hideEstacionamentoSelectInput}">
+                <h:panelGroup rendered="#{not hideEstabelecimentoSelectInput}">
                 
                     <p:commandButton icon="ui-icon-plusthick" title="#{messages.label_create}"
-                              action="#{pessoaBean.prepareNewPessoa()}"
-                              update=":createEstacionamentoFromEditDialog"
+                              action="#{estabelecimentoBean.prepareNewEstabelecimento()}"
+                              update=":createEstabelecimentoFromEditDialog"
                               resetValues="true"
-                              oncomplete="PF('createEstacionamentoFromEditDialogWidget').show()"
-                              rendered="#{applicationBean.componentExists('createEstacionamentoFromEditDialog') and estabelecimentoVisitaBean.isPermitted('pessoa:create')}"
+                              oncomplete="PF('createEstabelecimentoFromEditDialogWidget').show()"
+                              rendered="#{applicationBean.componentExists('createEstabelecimentoFromEditDialog') and estabelecimentoVisitaBean.isPermitted('estabelecimento:create')}"
                               style="vertical-align:top;" partialSubmit="true" process="@this">
                     </p:commandButton>
                     
-                    <p:message for="estacionamentoSelectInput" display="icon" rendered="#{not hideEstacionamentoSelectInput}"/>
+                    <p:message for="estabelecimentoSelectInput" display="icon" rendered="#{not hideEstabelecimentoSelectInput}"/>
                 </h:panelGroup>
                 
                 <h:outputLabel value="#{messages.field_label_estabelecimentoVisita_placaAnalisar}:" for="placaAnalisarEditInput" />
