@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:o="http://omnifaces.org/ui">
+<ui:composition template="/templates/layout.xhtml">
+  <ui:define name="content">
+  
+    <f:metadata>
+      <f:viewParam name="id" value="#{pessoaAutomovelBean.pessoaAutomovel}" converter="#{genericEntityConverter}" />
+      <f:viewAction action="#{pessoaAutomovelBean.onAutomovelsDialog(pessoaAutomovelBean.pessoaAutomovel)}"/>
+    </f:metadata>
+    
+    <p:outputPanel styleClass="ui-fluid" rendered="#{not pessoaAutomovelBean.isPermitted(pessoaAutomovelBean.pessoaAutomovel, 'pessoaAutomovel:read')}">
+        <h:outputText value="#{messages.access_denied}" />
+    </p:outputPanel>
+    
+    <p:outputPanel id="pessoaAutomovelAutomovelsPanel" rendered="#{pessoaAutomovelBean.isPermitted(pessoaAutomovelBean.pessoaAutomovel, 'pessoaAutomovel:read')}">
+        <h:form id="pessoaAutomovelAutomovelsForm">
+            <ui:include src="/pages/pessoaAutomovel/pessoaAutomovelAutomovelInclude.xhtml" />
+            <div style="margin:10px">
+                <p:commandButton value="#{messages.label_save}"
+                    icon="ui-icon-disk"
+                    actionListener="#{pessoaAutomovelBean.onAutomovelsSubmit}"
+                    action="/pages/pessoaAutomovel/pessoaAutomovel?faces-redirect=true"
+                    update=":growlForm:growl"
+                    rendered="#{pessoaAutomovelBean.isPermitted(pessoaAutomovelBean.pessoaAutomovel, 'pessoaAutomovel:update')}"
+                    partialSubmit="true" process="@this" />
+                <p:commandButton value="#{messages.label_close}" icon="ui-icon-close"
+                                 action="/pages/pessoaAutomovel/pessoaAutomovel?faces-redirect=true" immediate="true" />
+            </div>
+        </h:form>
+    </p:outputPanel>
+    
+    <p:dialog dynamic="true" id="createAutomovelDialog"
+        rendered="#{pessoaAutomovelBean.isPermitted('automovel:create')}"
+        header="#{messages.dialog_pessoaAutomovel_create_automovel}" modal="true"
+        widgetVar="createAutomovelDialogWidget" maximizable="true">
+        <p:ajax event="close" listener="#{automovelBean.reset}" />
+        <p:outputPanel id="createAutomovelPanel">
+                <h:form id="createAutomovelForm">
+                    <ui:include src="/pages/automovel/automovelEditInclude.xhtml">
+                        <ui:param name="hidePessoaAutomovelSelectInput" value="true" />
+                    </ui:include>
+                    <div style="text-align: center; margin: 10px">
+                        <p:commandButton
+                            action="#{pessoaAutomovelBean.updateAutomovel(automovelBean.automovel)}"
+                            value="#{messages.label_save}" icon="ui-icon-disk"
+                            actionListener="#{automovelBean.persist}"
+                            update=":pessoaAutomovelAutomovelsPanel :createAutomovelPanel :growlForm:growl"
+                            oncomplete="if(!args.validationFailed) PF('createAutomovelDialogWidget').hide()" />
+                        <p:commandButton value="#{messages.label_close}"
+                            icon="ui-icon-close"
+                            onclick="PF('createAutomovelDialogWidget').hide()"
+                            type="button" />
+                    </div>
+                </h:form>
+            </p:outputPanel>
+    </p:dialog>
+    
+  </ui:define>
+  
+</ui:composition>
+</html>

@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui">
+<ui:composition>
+  <h:form>
+  <p:menu>
+    <p:submenu label="#{messages.menu_pages}">
+      
+      <p:menuitem value="#{messages.menu_pessoas}" url="/pages/pessoa/pessoa.xhtml" icon="icon-entity" ajax="false" async="false" />
+      
+      <p:menuitem value="#{messages.menu_estabelecimentos}" url="/pages/estabelecimento/estabelecimento.xhtml" icon="icon-entity" ajax="false" async="false" />
+      
+      <p:menuitem value="#{messages.menu_automovelTipos}" url="/pages/automovelTipo/automovelTipo.xhtml" icon="icon-entity" ajax="false" async="false" />
+      
+      <p:menuitem value="#{messages.menu_automovels}" url="/pages/automovel/automovel.xhtml" icon="icon-entity" ajax="false" async="false" />
+      
+      <p:menuitem value="#{messages.menu_pessoaAutomovels}" url="/pages/pessoaAutomovel/pessoaAutomovel.xhtml" icon="icon-entity" ajax="false" async="false" />
+      
+      <p:menuitem value="#{messages.menu_estabelecimentoVisitas}" url="/pages/estabelecimentoVisita/estabelecimentoVisita.xhtml" icon="icon-entity" ajax="false" async="false" />
+      
+      <p:menuitem value="#{messages.menu_cameras}" url="/pages/camera/camera.xhtml" icon="icon-entity" ajax="false" async="false" />
+      
+      <p:menuitem value="#{messages.menu_imagenss}" url="/pages/imagens/imagens.xhtml" icon="icon-entity" ajax="false" async="false" />
+      
+      <p:menuitem value="#{messages.menu_imagemCameras}" url="/pages/imagemCamera/imagemCamera.xhtml" icon="icon-entity" ajax="false" async="false" />
+      
+    </p:submenu>
+    
+    <p:submenu label="#{messages.menu_admin}" rendered="#{p:ifGranted('Administrator')}">
+      <p:menuitem value="#{messages.menu_user_management}" url="/pages/admin/user.xhtml" icon="ui-icon-person" ajax="false" async="false"/>
+    </p:submenu>
+    
+  </p:menu>
+  </h:form>
+</ui:composition>
+</html>

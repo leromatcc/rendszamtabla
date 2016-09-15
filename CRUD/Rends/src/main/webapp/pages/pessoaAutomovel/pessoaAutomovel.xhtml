@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:o="http://omnifaces.org/ui">
+<ui:composition template="/templates/layout.xhtml">
+  <ui:define name="content">
+
+    <h:form prependId="false" id="pessoaAutomovelDataForm" onkeypress="if (event.keyCode == 13) {return false; }">
+
+        <p:dataTable id="pessoaAutomovelTable" value="#{pessoaAutomovelBean.pessoaAutomovelList}" var="pessoaAutomovel" resizableColumns="true" paginator="true"
+                paginatorTemplate=" {CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                rowsPerPageTemplate="5,10,25,50" rows="10" draggableColumns="true"
+                paginatorPosition="bottom" widgetVar="pessoaAutomovelTable" emptyMessage="#{messages.label_no_records_found}"
+                reflow="true">
+        
+          <f:facet name="header" >
+
+              <p:commandButton value="#{messages.create_new_pessoaAutomovel}" icon="ui-icon-plusthick"
+                      action="/pages/pessoaAutomovel/pessoaAutomovelCreate?faces-redirect=true"
+                      rendered="#{pessoaAutomovelBean.isPermitted('pessoaAutomovel:create')}" style="float:left" />
+              
+              <p:commandButton id="toggler" type="button" value="#{messages.table_select_columns}" icon="ui-icon-calculator" />
+              <p:columnToggler datasource="pessoaAutomovelTable" trigger="toggler" />
+          </f:facet>
+          
+          <p:column  headerText="#{messages.field_label_pessoaAutomovel_descricao}" sortBy="#{pessoaAutomovel.descricao}" filterBy="#{pessoaAutomovel.descricao}">
+            <f:facet name="filter">
+                <p:inputText id="descricaoFilter"
+                        onkeypress="if (event.keyCode == 13) {PF('pessoaAutomovelTable').filter(); updateDescricaoFilter(); return false; }" >
+                    <p:remoteCommand name="updateDescricaoFilter" update="pessoaAutomovelTable:descricaoFilter" />
+                </p:inputText>
+            </f:facet>
+            <h:outputText value="#{pessoaAutomovel.descricao}" />
+          </p:column>
+
+          <p:column headerText="#{messages.field_label_pessoaAutomovel_automovel_plural}" styleClass="action-column" exportable="false">
+            
+            <p:commandButton icon="ui-icon-transfer-e-w"  title="#{messages.field_label_pessoaAutomovel_automovel_plural}" action="#{'/pages/pessoaAutomovel/pessoaAutomovelAutomovel?faces-redirect=true&amp;id='.concat(pessoaAutomovel.id)}" />
+            
+          </p:column>
+          
+          <p:column styleClass="action-column" headerText="#{messages.table_actions_column}" width="115" exportable="false">
+            
+            <p:commandButton action="#{'/pages/pessoaAutomovel/pessoaAutomovelView?faces-redirect=true&amp;id='.concat(pessoaAutomovel.id)}"
+                icon="ui-icon-zoomin"
+                title="#{messages.label_view}" />
+            
+            <p:commandButton action="#{'/pages/pessoaAutomovel/pessoaAutomovelEdit?faces-redirect=true&amp;id='.concat(pessoaAutomovel.id)}"
+                icon="ui-icon-pencil"
+                resetValues="true"
+                rendered="#{pessoaAutomovelBean.isPermitted(pessoaAutomovel, 'pessoaAutomovel:update')}"
+                title="#{messages.label_edit}" />
+                
+            <p:commandButton icon="ui-icon-close" rendered="#{pessoaAutomovelBean.isPermitted(pessoaAutomovel, 'pessoaAutomovel:delete')}"
+                oncomplete="PF('deletePessoaAutomovelDialogWidget').show()"
+                title="#{messages.label_delete}" >
+                <f:setPropertyActionListener value="#{pessoaAutomovel}"
+                    target="#{pessoaAutomovelBean.pessoaAutomovel}" />
+            </p:commandButton>
+    
+          </p:column>
+          
+        </p:dataTable>
+        
+    </h:form>
+
+    <p:confirmDialog id="deletePessoaAutomovelDialog" widgetVar="deletePessoaAutomovelDialogWidget"
+        rendered="#{pessoaAutomovelBean.isPermitted(pessoaAutomovelBean.pessoaAutomovel, 'pessoaAutomovel:delete')}" header="#{messages.label_confirm_deletion}"
+        severity="alarm">
+        <f:facet name="message"><h:outputText value="#{messages.label_delete_record}" escape="false"/></f:facet>
+        <p:outputPanel>
+          <h:form>
+            <div style="text-align: center; margin:10px">
+              <p:commandButton value="#{messages.label_yes}" action="#{pessoaAutomovelBean.delete}" update=":pessoaAutomovelDataForm :growlForm:growl" oncomplete="PF('deletePessoaAutomovelDialogWidget').hide()" />
+              <p:commandButton value="#{messages.label_no}" onclick="PF('deletePessoaAutomovelDialogWidget').hide()" type="button" />
+            </div>
+          </h:form>
+        </p:outputPanel>
+    </p:confirmDialog>
+    
+  </ui:define>
+</ui:composition>
+</html>

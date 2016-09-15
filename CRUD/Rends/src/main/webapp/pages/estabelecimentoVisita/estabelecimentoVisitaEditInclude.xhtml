@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:o="http://omnifaces.org/ui">
+
+        <p:outputPanel styleClass="ui-fluid">
+
+            <p:panelGrid columns="3" columnClasses="ui-grid-col-4,ui-grid-col-6,ui-grid-col-2" layout="grid" style="max-width:400px">
+            
+                <h:outputLabel value="#{messages.field_label_estabelecimentoVisita_datahora}:" for="datahoraEditInput" />
+                <p:calendar id="datahoraEditInput" navigator="true" value="#{estabelecimentoVisitaBean.estabelecimentoVisita.datahora}" label="#{messages.field_label_estabelecimentoVisita_datahora}" />
+                <p:message for="datahoraEditInput" display="icon" />
+
+                <h:outputLabel value="#{messages.field_label_estabelecimentoVisita_estacionamento}:" for="estacionamentoSelectInput" rendered="#{not hideEstacionamentoSelectInput}"/>
+                <h:panelGroup rendered="#{not hideEstacionamentoSelectInput}">
+                    <p:selectOneMenu value="#{estabelecimentoVisitaBean.estabelecimentoVisita.estacionamento}"
+                                    id="estacionamentoSelectInput">
+                        <f:selectItem noSelectionOption="true" itemLabel="" />
+                        <f:selectItems value="#{estabelecimentoVisitaBean.availableEstacionamento}" 
+                                    var="pessoa" 
+                                    itemLabel="#{pessoa.nome}"
+                                    itemValue="#{pessoa}" />
+                        <o:converter converterId="omnifaces.SelectItemsConverter" list="#{estabelecimentoVisitaBean.availableEstacionamento}" />
+                    </p:selectOneMenu>
+                </h:panelGroup>
+                <h:panelGroup rendered="#{not hideEstacionamentoSelectInput}">
+                
+                    <p:commandButton icon="ui-icon-plusthick" title="#{messages.label_create}"
+                              action="#{pessoaBean.prepareNewPessoa()}"
+                              update=":createEstacionamentoFromEditDialog"
+                              resetValues="true"
+                              oncomplete="PF('createEstacionamentoFromEditDialogWidget').show()"
+                              rendered="#{applicationBean.componentExists('createEstacionamentoFromEditDialog') and estabelecimentoVisitaBean.isPermitted('pessoa:create')}"
+                              style="vertical-align:top;" partialSubmit="true" process="@this">
+                    </p:commandButton>
+                    
+                    <p:message for="estacionamentoSelectInput" display="icon" rendered="#{not hideEstacionamentoSelectInput}"/>
+                </h:panelGroup>
+                
+                <h:outputLabel value="#{messages.field_label_estabelecimentoVisita_placaAnalisar}:" for="placaAnalisarEditInput" />
+                <p:inputText value="#{estabelecimentoVisitaBean.estabelecimentoVisita.placaAnalisar}" id="placaAnalisarEditInput" 
+                    label="#{messages.field_label_estabelecimentoVisita_placaAnalisar}" />
+                <p:message for="placaAnalisarEditInput" display="icon" />
+
+                <h:outputLabel value="#{messages.field_label_estabelecimentoVisita_acessoAutorizado}:" for="acessoAutorizadoInput" />
+                <p:selectBooleanCheckbox value="#{estabelecimentoVisitaBean.estabelecimentoVisita.acessoAutorizado}" id="acessoAutorizadoInput" label="#{messages.field_label_estabelecimentoVisita_acessoAutorizado}" />
+                <p:message for="acessoAutorizadoInput" display="icon" />
+
+                <h:outputLabel value="#{messages.field_label_estabelecimentoVisita_automovel}:" for="automovelSelectInput" rendered="#{not hideAutomovelSelectInput}"/>
+                <h:panelGroup rendered="#{not hideAutomovelSelectInput}">
+                    <p:selectOneMenu value="#{estabelecimentoVisitaBean.estabelecimentoVisita.automovel}"
+                                    id="automovelSelectInput">
+                        <f:selectItem noSelectionOption="true" itemLabel="" />
+                        <f:selectItems value="#{estabelecimentoVisitaBean.availableAutomovel}" 
+                                    var="automovel" 
+                                    itemLabel="#{automovel.descricao}"
+                                    itemValue="#{automovel}" />
+                        <o:converter converterId="omnifaces.SelectItemsConverter" list="#{estabelecimentoVisitaBean.availableAutomovel}" />
+                    </p:selectOneMenu>
+                </h:panelGroup>
+                <h:panelGroup rendered="#{not hideAutomovelSelectInput}">
+                
+                    <p:commandButton icon="ui-icon-plusthick" title="#{messages.label_create}"
+                              action="#{automovelBean.prepareNewAutomovel()}"
+                              update=":createAutomovelFromEditDialog"
+                              resetValues="true"
+                              oncomplete="PF('createAutomovelFromEditDialogWidget').show()"
+                              rendered="#{applicationBean.componentExists('createAutomovelFromEditDialog') and estabelecimentoVisitaBean.isPermitted('automovel:create')}"
+                              style="vertical-align:top;" partialSubmit="true" process="@this">
+                    </p:commandButton>
+                    
+                    <p:message for="automovelSelectInput" display="icon" rendered="#{not hideAutomovelSelectInput}"/>
+                </h:panelGroup>
+                
+            </p:panelGrid>
+
+        </p:outputPanel>
+</html>

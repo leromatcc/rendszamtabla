@@ -1,0 +1,727 @@
+{
+  "info1": "======================================================================================================",
+  "info2": "= This Project was generated with generjee. http://generjee.com                                      =",
+  "info3": "= You can import this file into the generjee tool, then change the project model and generate again. =",
+  "info4": "======================================================================================================",
+  "entities": [
+    {
+      "name": "User",
+      "id": "User",
+      "lookupField": "username",
+      "exportable": true,
+      "fields": [
+        {
+          "id": 0,
+          "name": "id",
+          "type": "Autoincremented ID",
+          "editable": false,
+          "showInTable": false,
+          "required": true
+        },
+        {
+          "id": "username",
+          "name": "Username",
+          "type": "String",
+          "editable": false,
+          "showInTable": true,
+          "stringLength": 50,
+          "required": true
+        },
+        {
+          "id": "password",
+          "name": "Password",
+          "type": "Password",
+          "editable": false,
+          "showInTable": false,
+          "required": true
+        },
+        {
+          "id": "email",
+          "name": "E-mail",
+          "type": "String",
+          "editable": false,
+          "showInTable": true,
+          "stringLength": 50,
+          "required": true
+        },
+        {
+          "id": "roles",
+          "name": "Roles",
+          "type": "Enumeration",
+          "editable": false,
+          "showInTable": false,
+          "required": true
+        },
+        {
+          "id": "status",
+          "name": "Status",
+          "type": "Enumeration",
+          "editable": false,
+          "showInTable": true,
+          "required": true
+        }
+      ]
+    },
+    {
+      "name": "Pessoa",
+      "id": 2,
+      "lookupField": "1",
+      "aclEnabled": true,
+      "authorization": [
+        {
+          "roleId": 1,
+          "roleName": "Administrator",
+          "createPerm": 1,
+          "readPerm": 1,
+          "updatePerm": 1,
+          "deletePerm": 1,
+          "changeOwnerPerm": 1,
+          "ownerRoleEnabled": false
+        },
+        {
+          "roleId": 2,
+          "roleName": "Public",
+          "createPerm": "0",
+          "readPerm": "0",
+          "updatePerm": "0",
+          "deletePerm": "0",
+          "changeOwnerPerm": 0,
+          "ownerRoleEnabled": false
+        },
+        {
+          "roleId": "registered001",
+          "roleName": "Registered",
+          "createPerm": "1",
+          "readPerm": "1",
+          "updatePerm": "1",
+          "deletePerm": "1",
+          "changeOwnerPerm": 0,
+          "ownerRoleEnabled": false
+        }
+      ],
+      "fields": [
+        {
+          "id": 0,
+          "name": "id",
+          "type": "Autoincremented ID",
+          "editable": false,
+          "showInTable": false,
+          "required": true
+        },
+        {
+          "id": 1,
+          "name": "nome",
+          "type": "String",
+          "editable": true,
+          "showInTable": true,
+          "stringLength": 50,
+          "required": false
+        },
+        {
+          "id": 2,
+          "name": "endereco",
+          "type": "String",
+          "editable": true,
+          "showInTable": true,
+          "stringLength": 50,
+          "required": false
+        },
+        {
+          "id": 3,
+          "name": "idade",
+          "type": "String",
+          "editable": true,
+          "showInTable": true,
+          "stringLength": 50,
+          "required": false
+        }
+      ]
+    },
+    {
+      "name": "Estabelecimento",
+      "id": 3,
+      "lookupField": "1",
+      "aclEnabled": true,
+      "authorization": [
+        {
+          "roleId": 1,
+          "roleName": "Administrator",
+          "createPerm": 1,
+          "readPerm": 1,
+          "updatePerm": 1,
+          "deletePerm": 1,
+          "changeOwnerPerm": 1,
+          "ownerRoleEnabled": false
+        },
+        {
+          "roleId": 2,
+          "roleName": "Public",
+          "createPerm": "0",
+          "readPerm": "0",
+          "updatePerm": "0",
+          "deletePerm": "0",
+          "changeOwnerPerm": 0,
+          "ownerRoleEnabled": false
+        },
+        {
+          "roleId": "registered001",
+          "roleName": "Registered",
+          "createPerm": "0",
+          "readPerm": "0",
+          "updatePerm": "0",
+          "deletePerm": "0",
+          "changeOwnerPerm": 0,
+          "ownerRoleEnabled": false
+        }
+      ],
+      "fields": [
+        {
+          "id": 0,
+          "name": "id",
+          "type": "Autoincremented ID",
+          "editable": false,
+          "showInTable": false,
+          "required": true
+        },
+        {
+          "id": 1,
+          "name": "descricao",
+          "type": "String",
+          "editable": true,
+          "showInTable": true,
+          "stringLength": 50,
+          "required": false
+        }
+      ]
+    },
+    {
+      "name": "AutomovelTipo",
+      "id": 4,
+      "lookupField": "1",
+      "aclEnabled": true,
+      "authorization": [
+        {
+          "roleId": 1,
+          "roleName": "Administrator",
+          "createPerm": 1,
+          "readPerm": 1,
+          "updatePerm": 1,
+          "deletePerm": 1,
+          "changeOwnerPerm": 1,
+          "ownerRoleEnabled": false
+        },
+        {
+          "roleId": 2,
+          "roleName": "Public",
+          "createPerm": "0",
+          "readPerm": "0",
+          "updatePerm": "0",
+          "deletePerm": "0",
+          "changeOwnerPerm": 0,
+          "ownerRoleEnabled": false
+        },
+        {
+          "roleId": "registered001",
+          "roleName": "Registered",
+          "createPerm": "0",
+          "readPerm": "0",
+          "updatePerm": "0",
+          "deletePerm": "0",
+          "changeOwnerPerm": 0,
+          "ownerRoleEnabled": false
+        }
+      ],
+      "fields": [
+        {
+          "id": 0,
+          "name": "id",
+          "type": "Autoincremented ID",
+          "editable": false,
+          "showInTable": false,
+          "required": true
+        },
+        {
+          "id": 1,
+          "name": "descricao",
+          "type": "String",
+          "editable": true,
+          "showInTable": true,
+          "stringLength": 50,
+          "required": false
+        }
+      ]
+    },
+    {
+      "name": "Automovel",
+      "id": 5,
+      "lookupField": "2",
+      "aclEnabled": true,
+      "authorization": [
+        {
+          "roleId": 1,
+          "roleName": "Administrator",
+          "createPerm": 1,
+          "readPerm": 1,
+          "updatePerm": 1,
+          "deletePerm": 1,
+          "changeOwnerPerm": 1,
+          "ownerRoleEnabled": false
+        },
+        {
+          "roleId": 2,
+          "roleName": "Public",
+          "createPerm": "0",
+          "readPerm": "0",
+          "updatePerm": "0",
+          "deletePerm": "0",
+          "changeOwnerPerm": 0,
+          "ownerRoleEnabled": false
+        },
+        {
+          "roleId": "registered001",
+          "roleName": "Registered",
+          "createPerm": "1",
+          "readPerm": "1",
+          "updatePerm": "1",
+          "deletePerm": "1",
+          "changeOwnerPerm": 0,
+          "ownerRoleEnabled": false
+        }
+      ],
+      "fields": [
+        {
+          "id": 0,
+          "name": "id",
+          "type": "Autoincremented ID",
+          "editable": false,
+          "showInTable": false,
+          "required": true
+        },
+        {
+          "id": 1,
+          "name": "placa",
+          "type": "String",
+          "editable": true,
+          "showInTable": true,
+          "stringLength": 50,
+          "required": false
+        },
+        {
+          "id": 2,
+          "name": "descricao",
+          "type": "String",
+          "editable": true,
+          "showInTable": true,
+          "stringLength": 50,
+          "required": false
+        },
+        {
+          "id": 3,
+          "name": "automovelTipo",
+          "type": "Relation",
+          "editable": true,
+          "showInTable": true,
+          "referenceType": "n:m",
+          "referenceEntity": "AutomovelTipo"
+        }
+      ]
+    },
+    {
+      "name": "PessoaAutomovel",
+      "id": 6,
+      "lookupField": "4",
+      "aclEnabled": true,
+      "authorization": [
+        {
+          "roleId": 1,
+          "roleName": "Administrator",
+          "createPerm": 1,
+          "readPerm": 1,
+          "updatePerm": 1,
+          "deletePerm": 1,
+          "changeOwnerPerm": 1,
+          "ownerRoleEnabled": false
+        },
+        {
+          "roleId": 2,
+          "roleName": "Public",
+          "createPerm": "0",
+          "readPerm": "0",
+          "updatePerm": "0",
+          "deletePerm": "0",
+          "changeOwnerPerm": 0,
+          "ownerRoleEnabled": false
+        },
+        {
+          "roleId": "registered001",
+          "roleName": "Registered",
+          "createPerm": "1",
+          "readPerm": "1",
+          "updatePerm": "1",
+          "deletePerm": "1",
+          "changeOwnerPerm": 0,
+          "ownerRoleEnabled": false
+        }
+      ],
+      "fields": [
+        {
+          "id": 0,
+          "name": "id",
+          "type": "Autoincremented ID",
+          "editable": false,
+          "showInTable": false,
+          "required": true
+        },
+        {
+          "id": 1,
+          "name": "automovel",
+          "type": "Relation",
+          "editable": true,
+          "showInTable": true,
+          "referenceType": "n:m",
+          "referenceEntity": "Automovel"
+        },
+        {
+          "id": 3,
+          "name": "pessoa",
+          "type": "Relation",
+          "editable": true,
+          "showInTable": true,
+          "referenceType": "1:1",
+          "referenceEntity": "Pessoa"
+        },
+        {
+          "id": 4,
+          "name": "descricao",
+          "type": "String",
+          "editable": true,
+          "showInTable": true,
+          "stringLength": 50,
+          "required": false
+        }
+      ]
+    },
+    {
+      "name": "EstabelecimentoVisita",
+      "id": 7,
+      "lookupField": "3",
+      "aclEnabled": true,
+      "authorization": [
+        {
+          "roleId": 1,
+          "roleName": "Administrator",
+          "createPerm": 1,
+          "readPerm": 1,
+          "updatePerm": 1,
+          "deletePerm": 1,
+          "changeOwnerPerm": 1,
+          "ownerRoleEnabled": false
+        },
+        {
+          "roleId": 2,
+          "roleName": "Public",
+          "createPerm": "0",
+          "readPerm": "0",
+          "updatePerm": "0",
+          "deletePerm": "0",
+          "changeOwnerPerm": 0,
+          "ownerRoleEnabled": false
+        },
+        {
+          "roleId": "registered001",
+          "roleName": "Registered",
+          "createPerm": "1",
+          "readPerm": "1",
+          "updatePerm": "1",
+          "deletePerm": "1",
+          "changeOwnerPerm": 0,
+          "ownerRoleEnabled": false
+        }
+      ],
+      "fields": [
+        {
+          "id": 0,
+          "name": "id",
+          "type": "Autoincremented ID",
+          "editable": false,
+          "showInTable": false,
+          "required": true
+        },
+        {
+          "id": 1,
+          "name": "datahora",
+          "type": "Date",
+          "editable": true,
+          "showInTable": true,
+          "required": true
+        },
+        {
+          "id": 2,
+          "name": "estacionamento",
+          "type": "Relation",
+          "editable": true,
+          "showInTable": true,
+          "referenceType": "1:1",
+          "referenceEntity": "Pessoa"
+        },
+        {
+          "id": 3,
+          "name": "placaAnalisar",
+          "type": "String",
+          "editable": true,
+          "showInTable": true,
+          "stringLength": "1000",
+          "required": true
+        },
+        {
+          "id": 4,
+          "name": "AcessoAutorizado",
+          "type": "Boolean",
+          "editable": true,
+          "showInTable": true,
+          "required": false
+        },
+        {
+          "id": 5,
+          "name": "automovel",
+          "type": "Relation",
+          "editable": true,
+          "showInTable": true,
+          "referenceType": "1:1",
+          "referenceEntity": "Automovel"
+        }
+      ]
+    },
+    {
+      "name": "Camera",
+      "id": 8,
+      "lookupField": "2",
+      "aclEnabled": true,
+      "authorization": [
+        {
+          "roleId": 1,
+          "roleName": "Administrator",
+          "createPerm": 1,
+          "readPerm": 1,
+          "updatePerm": 1,
+          "deletePerm": 1,
+          "changeOwnerPerm": 1,
+          "ownerRoleEnabled": false
+        },
+        {
+          "roleId": 2,
+          "roleName": "Public",
+          "createPerm": "0",
+          "readPerm": "0",
+          "updatePerm": "0",
+          "deletePerm": "0",
+          "changeOwnerPerm": 0,
+          "ownerRoleEnabled": false
+        },
+        {
+          "roleId": "registered001",
+          "roleName": "Registered",
+          "createPerm": "0",
+          "readPerm": "0",
+          "updatePerm": "0",
+          "deletePerm": "0",
+          "changeOwnerPerm": 0,
+          "ownerRoleEnabled": false
+        }
+      ],
+      "fields": [
+        {
+          "id": 0,
+          "name": "id",
+          "type": "Autoincremented ID",
+          "editable": false,
+          "showInTable": false,
+          "required": true
+        },
+        {
+          "id": 1,
+          "name": "enderecoRede",
+          "type": "String",
+          "editable": true,
+          "showInTable": true,
+          "stringLength": "1000",
+          "required": false
+        },
+        {
+          "id": 2,
+          "name": "descricao",
+          "type": "String",
+          "editable": true,
+          "showInTable": true,
+          "stringLength": "100",
+          "required": false
+        }
+      ]
+    },
+    {
+      "name": "Imagens",
+      "id": 9,
+      "lookupField": "1",
+      "attachmentsEnabled": true,
+      "aclEnabled": true,
+      "authorization": [
+        {
+          "roleId": 1,
+          "roleName": "Administrator",
+          "createPerm": 1,
+          "readPerm": 1,
+          "updatePerm": 1,
+          "deletePerm": 1,
+          "changeOwnerPerm": 1,
+          "ownerRoleEnabled": false
+        },
+        {
+          "roleId": 2,
+          "roleName": "Public",
+          "createPerm": "0",
+          "readPerm": "0",
+          "updatePerm": "0",
+          "deletePerm": "0",
+          "changeOwnerPerm": 0,
+          "ownerRoleEnabled": false
+        },
+        {
+          "roleId": "registered001",
+          "roleName": "Registered",
+          "createPerm": 1,
+          "readPerm": 1,
+          "updatePerm": 1,
+          "deletePerm": 1,
+          "changeOwnerPerm": 0,
+          "ownerRoleEnabled": false
+        }
+      ],
+      "fields": [
+        {
+          "id": 0,
+          "name": "id",
+          "type": "Autoincremented ID",
+          "editable": false,
+          "showInTable": false,
+          "required": true
+        },
+        {
+          "id": 1,
+          "name": "descricao",
+          "type": "String",
+          "editable": true,
+          "showInTable": true,
+          "stringLength": "1000",
+          "required": false
+        }
+      ]
+    },
+    {
+      "name": "ImagemCamera",
+      "id": 10,
+      "lookupField": "1",
+      "aclEnabled": true,
+      "authorization": [
+        {
+          "roleId": 1,
+          "roleName": "Administrator",
+          "createPerm": 1,
+          "readPerm": 1,
+          "updatePerm": 1,
+          "deletePerm": 1,
+          "changeOwnerPerm": 1,
+          "ownerRoleEnabled": false
+        },
+        {
+          "roleId": 2,
+          "roleName": "Public",
+          "createPerm": "0",
+          "readPerm": "0",
+          "updatePerm": "0",
+          "deletePerm": "0",
+          "changeOwnerPerm": 0,
+          "ownerRoleEnabled": false
+        },
+        {
+          "roleId": "registered001",
+          "roleName": "Registered",
+          "createPerm": 1,
+          "readPerm": 1,
+          "updatePerm": 1,
+          "deletePerm": 1,
+          "changeOwnerPerm": 0,
+          "ownerRoleEnabled": false
+        }
+      ],
+      "fields": [
+        {
+          "id": 0,
+          "name": "id",
+          "type": "Autoincremented ID",
+          "editable": false,
+          "showInTable": false,
+          "required": true
+        },
+        {
+          "id": 1,
+          "name": "descricao",
+          "type": "String",
+          "editable": true,
+          "showInTable": true,
+          "stringLength": "1000",
+          "required": false
+        },
+        {
+          "id": 2,
+          "name": "imagem",
+          "type": "Relation",
+          "editable": true,
+          "showInTable": true,
+          "referenceType": "1:1",
+          "referenceEntity": "Imagens"
+        },
+        {
+          "id": 3,
+          "name": "camera",
+          "type": "Relation",
+          "editable": true,
+          "showInTable": true,
+          "referenceType": "n:m",
+          "referenceEntity": "Camera"
+        }
+      ]
+    }
+  ],
+  "appSettings": {
+    "generjeeversion": "1.0",
+    "appName": "Rends",
+    "package": "com.rends",
+    "masterDetailsStyle": "2",
+    "dataListStyle": "1",
+    "pfTheme": "south-street",
+    "runtarget": "as",
+    "layer": {
+      "rest": false
+    },
+    "manageRolesAndUsers": true,
+    "createRegistrationForm": true,
+    "roles": [
+      {
+        "id": 1,
+        "name": "Administrator",
+        "canBeDeleted": false
+      },
+      {
+        "id": 2,
+        "name": "Public",
+        "canBeDeleted": false
+      },
+      {
+        "id": "registered001",
+        "name": "Registered",
+        "canBeDeleted": false
+      }
+    ]
+  },
+  "guid": "1032851b-4a52-46b2-353c-8e9011d98c7c"
+}

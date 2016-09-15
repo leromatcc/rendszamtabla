@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:o="http://omnifaces.org/ui">
+<ui:composition template="/templates/layout.xhtml">
+  <ui:define name="content">
+  
+    <f:metadata>
+      <f:viewParam name="id" value="#{automovelBean.automovel}" converter="#{genericEntityConverter}" />
+      <f:viewAction action="#{automovelBean.onAutomovelTiposDialog(automovelBean.automovel)}"/>
+    </f:metadata>
+    
+    <p:outputPanel styleClass="ui-fluid" rendered="#{not automovelBean.isPermitted(automovelBean.automovel, 'automovel:read')}">
+        <h:outputText value="#{messages.access_denied}" />
+    </p:outputPanel>
+    
+    <p:outputPanel id="automovelAutomovelTiposPanel" rendered="#{automovelBean.isPermitted(automovelBean.automovel, 'automovel:read')}">
+        <h:form id="automovelAutomovelTiposForm">
+            <ui:include src="/pages/automovel/automovelAutomovelTipoInclude.xhtml" />
+            <div style="margin:10px">
+                <p:commandButton value="#{messages.label_save}"
+                    icon="ui-icon-disk"
+                    actionListener="#{automovelBean.onAutomovelTiposSubmit}"
+                    action="/pages/automovel/automovel?faces-redirect=true"
+                    update=":growlForm:growl"
+                    rendered="#{automovelBean.isPermitted(automovelBean.automovel, 'automovel:update')}"
+                    partialSubmit="true" process="@this" />
+                <p:commandButton value="#{messages.label_close}" icon="ui-icon-close"
+                                 action="/pages/automovel/automovel?faces-redirect=true" immediate="true" />
+            </div>
+        </h:form>
+    </p:outputPanel>
+    
+    <p:dialog dynamic="true" id="createAutomovelTipoDialog"
+        rendered="#{automovelBean.isPermitted('automovelTipo:create')}"
+        header="#{messages.dialog_automovel_create_automovelTipo}" modal="true"
+        widgetVar="createAutomovelTipoDialogWidget" maximizable="true">
+        <p:ajax event="close" listener="#{automovelTipoBean.reset}" />
+        <p:outputPanel id="createAutomovelTipoPanel">
+                <h:form id="createAutomovelTipoForm">
+                    <ui:include src="/pages/automovelTipo/automovelTipoEditInclude.xhtml">
+                        <ui:param name="hideAutomovelSelectInput" value="true" />
+                    </ui:include>
+                    <div style="text-align: center; margin: 10px">
+                        <p:commandButton
+                            action="#{automovelBean.updateAutomovelTipo(automovelTipoBean.automovelTipo)}"
+                            value="#{messages.label_save}" icon="ui-icon-disk"
+                            actionListener="#{automovelTipoBean.persist}"
+                            update=":automovelAutomovelTiposPanel :createAutomovelTipoPanel :growlForm:growl"
+                            oncomplete="if(!args.validationFailed) PF('createAutomovelTipoDialogWidget').hide()" />
+                        <p:commandButton value="#{messages.label_close}"
+                            icon="ui-icon-close"
+                            onclick="PF('createAutomovelTipoDialogWidget').hide()"
+                            type="button" />
+                    </div>
+                </h:form>
+            </p:outputPanel>
+    </p:dialog>
+    
+  </ui:define>
+  
+</ui:composition>
+</html>

@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:o="http://omnifaces.org/ui">
+<ui:composition template="/templates/layout.xhtml">
+  <ui:define name="content">
+  
+    <f:metadata>
+      <f:viewParam name="id" value="#{pessoaAutomovelBean.pessoaAutomovel}" converter="#{genericEntityConverter}" />
+    </f:metadata>
+    
+    <p:outputPanel id="pessoaAutomovelEditPanel">
+        <h:form id="editPessoaAutomovelForm">
+            <ui:include src="/pages/pessoaAutomovel/pessoaAutomovelEditInclude.xhtml"/>
+            <div style="margin:10px">
+                <p:commandButton value="#{messages.label_save}" icon="ui-icon-disk" actionListener="#{pessoaAutomovelBean.persist}"
+                        action="/pages/pessoaAutomovel/pessoaAutomovel?faces-redirect=true" update=":pessoaAutomovelEditPanel :growlForm:growl" />
+                <p:commandButton value="#{messages.label_close}" icon="ui-icon-close"
+                        action="/pages/pessoaAutomovel/pessoaAutomovel?faces-redirect=true" immediate="true" />
+            </div>
+        </h:form>
+    </p:outputPanel>
+    
+    <p:dialog dynamic="true" id="createPessoaFromEditDialog"
+        rendered="#{pessoaAutomovelBean.isPermitted('pessoa:create')}"
+        header="#{messages.dialog_pessoaAutomovel_create_pessoa}" modal="true"
+        widgetVar="createPessoaFromEditDialogWidget" maximizable="true">
+        <p:ajax event="close" listener="#{pessoaBean.reset}" />
+        <p:outputPanel id="createPessoaFromEditPanel">
+            <h:form id="createPessoaFromEditForm">
+                <ui:include src="/pages/pessoa/pessoaEditInclude.xhtml">
+                    <ui:param name="hidePessoaAutomovelSelectInput" value="true" />
+                </ui:include>
+                <div style="text-align: center; margin: 10px">
+                    <p:commandButton
+                        action="#{pessoaAutomovelBean.updatePessoa(pessoaBean.pessoa)}"
+                        value="#{messages.label_save}" icon="ui-icon-disk"
+                        actionListener="#{pessoaBean.persist}"
+                        update=":editPessoaAutomovelForm:pessoaSelectInput :createPessoaFromEditPanel :growlForm:growl"
+                        oncomplete="if(!args.validationFailed) PF('createPessoaFromEditDialogWidget').hide()" />
+                    <p:commandButton value="#{messages.label_close}"
+                        icon="ui-icon-close"
+                        onclick="PF('createPessoaFromEditDialogWidget').hide()"
+                        type="button" />
+                </div>
+            </h:form>
+        </p:outputPanel>
+    </p:dialog>
+    
+  </ui:define>
+  
+</ui:composition>
+</html>

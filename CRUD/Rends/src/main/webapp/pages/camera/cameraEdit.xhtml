@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:o="http://omnifaces.org/ui">
+<ui:composition template="/templates/layout.xhtml">
+  <ui:define name="content">
+  
+    <f:metadata>
+      <f:viewParam name="id" value="#{cameraBean.camera}" converter="#{genericEntityConverter}" />
+    </f:metadata>
+    
+    <p:outputPanel id="cameraEditPanel">
+        <h:form id="editCameraForm">
+            <ui:include src="/pages/camera/cameraEditInclude.xhtml"/>
+            <div style="margin:10px">
+                <p:commandButton value="#{messages.label_save}" icon="ui-icon-disk" actionListener="#{cameraBean.persist}"
+                        action="/pages/camera/camera?faces-redirect=true" update=":cameraEditPanel :growlForm:growl" />
+                <p:commandButton value="#{messages.label_close}" icon="ui-icon-close"
+                        action="/pages/camera/camera?faces-redirect=true" immediate="true" />
+            </div>
+        </h:form>
+    </p:outputPanel>
+    
+  </ui:define>
+  
+</ui:composition>
+</html>

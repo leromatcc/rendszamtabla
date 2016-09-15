@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:o="http://omnifaces.org/ui">
+<ui:composition template="/templates/layout.xhtml">
+  <ui:define name="content">
+
+    <h:form prependId="false" id="cameraDataForm" onkeypress="if (event.keyCode == 13) {return false; }">
+
+        <p:dataTable id="cameraTable" value="#{cameraBean.cameraList}" var="camera" resizableColumns="true" paginator="true"
+                paginatorTemplate=" {CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                rowsPerPageTemplate="5,10,25,50" rows="10" draggableColumns="true"
+                paginatorPosition="bottom" widgetVar="cameraTable" emptyMessage="#{messages.label_no_records_found}"
+                reflow="true">
+        
+          <f:facet name="header" >
+
+              <p:commandButton value="#{messages.create_new_camera}" icon="ui-icon-plusthick"
+                      action="/pages/camera/cameraCreate?faces-redirect=true"
+                      rendered="#{cameraBean.isPermitted('camera:create')}" style="float:left" />
+              
+              <p:commandButton id="toggler" type="button" value="#{messages.table_select_columns}" icon="ui-icon-calculator" />
+              <p:columnToggler datasource="cameraTable" trigger="toggler" />
+          </f:facet>
+          
+          <p:column  headerText="#{messages.field_label_camera_enderecoRede}" sortBy="#{camera.enderecoRede}" filterBy="#{camera.enderecoRede}">
+            <f:facet name="filter">
+                <p:inputText id="enderecoRedeFilter"
+                        onkeypress="if (event.keyCode == 13) {PF('cameraTable').filter(); updateEnderecoRedeFilter(); return false; }" >
+                    <p:remoteCommand name="updateEnderecoRedeFilter" update="cameraTable:enderecoRedeFilter" />
+                </p:inputText>
+            </f:facet>
+            <h:outputText value="#{camera.enderecoRede}" />
+          </p:column>
+
+          <p:column  headerText="#{messages.field_label_camera_descricao}" sortBy="#{camera.descricao}" filterBy="#{camera.descricao}">
+            <f:facet name="filter">
+                <p:inputText id="descricaoFilter"
+                        onkeypress="if (event.keyCode == 13) {PF('cameraTable').filter(); updateDescricaoFilter(); return false; }" >
+                    <p:remoteCommand name="updateDescricaoFilter" update="cameraTable:descricaoFilter" />
+                </p:inputText>
+            </f:facet>
+            <h:outputText value="#{camera.descricao}" />
+          </p:column>
+
+          <p:column styleClass="action-column" headerText="#{messages.table_actions_column}" width="115" exportable="false">
+            
+            <p:commandButton action="#{'/pages/camera/cameraView?faces-redirect=true&amp;id='.concat(camera.id)}"
+                icon="ui-icon-zoomin"
+                title="#{messages.label_view}" />
+            
+            <p:commandButton action="#{'/pages/camera/cameraEdit?faces-redirect=true&amp;id='.concat(camera.id)}"
+                icon="ui-icon-pencil"
+                resetValues="true"
+                rendered="#{cameraBean.isPermitted(camera, 'camera:update')}"
+                title="#{messages.label_edit}" />
+                
+            <p:commandButton icon="ui-icon-close" rendered="#{cameraBean.isPermitted(camera, 'camera:delete')}"
+                oncomplete="PF('deleteCameraDialogWidget').show()"
+                title="#{messages.label_delete}" >
+                <f:setPropertyActionListener value="#{camera}"
+                    target="#{cameraBean.camera}" />
+            </p:commandButton>
+    
+          </p:column>
+          
+        </p:dataTable>
+        
+    </h:form>
+
+    <p:confirmDialog id="deleteCameraDialog" widgetVar="deleteCameraDialogWidget"
+        rendered="#{cameraBean.isPermitted(cameraBean.camera, 'camera:delete')}" header="#{messages.label_confirm_deletion}"
+        severity="alarm">
+        <f:facet name="message"><h:outputText value="#{messages.label_delete_record}" escape="false"/></f:facet>
+        <p:outputPanel>
+          <h:form>
+            <div style="text-align: center; margin:10px">
+              <p:commandButton value="#{messages.label_yes}" action="#{cameraBean.delete}" update=":cameraDataForm :growlForm:growl" oncomplete="PF('deleteCameraDialogWidget').hide()" />
+              <p:commandButton value="#{messages.label_no}" onclick="PF('deleteCameraDialogWidget').hide()" type="button" />
+            </div>
+          </h:form>
+        </p:outputPanel>
+    </p:confirmDialog>
+    
+  </ui:define>
+</ui:composition>
+</html>

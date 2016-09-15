@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:o="http://omnifaces.org/ui">
+<ui:composition template="/templates/layout.xhtml">
+  <ui:define name="content">
+
+    <h:form prependId="false" id="imagemCameraDataForm" onkeypress="if (event.keyCode == 13) {return false; }">
+
+        <p:dataTable id="imagemCameraTable" value="#{imagemCameraBean.imagemCameraList}" var="imagemCamera" resizableColumns="true" paginator="true"
+                paginatorTemplate=" {CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                rowsPerPageTemplate="5,10,25,50" rows="10" draggableColumns="true"
+                paginatorPosition="bottom" widgetVar="imagemCameraTable" emptyMessage="#{messages.label_no_records_found}"
+                reflow="true">
+        
+          <f:facet name="header" >
+
+              <p:commandButton value="#{messages.create_new_imagemCamera}" icon="ui-icon-plusthick"
+                      action="/pages/imagemCamera/imagemCameraCreate?faces-redirect=true"
+                      rendered="#{imagemCameraBean.isPermitted('imagemCamera:create')}" style="float:left" />
+              
+              <p:commandButton id="toggler" type="button" value="#{messages.table_select_columns}" icon="ui-icon-calculator" />
+              <p:columnToggler datasource="imagemCameraTable" trigger="toggler" />
+          </f:facet>
+          
+          <p:column  headerText="#{messages.field_label_imagemCamera_descricao}" sortBy="#{imagemCamera.descricao}" filterBy="#{imagemCamera.descricao}">
+            <f:facet name="filter">
+                <p:inputText id="descricaoFilter"
+                        onkeypress="if (event.keyCode == 13) {PF('imagemCameraTable').filter(); updateDescricaoFilter(); return false; }" >
+                    <p:remoteCommand name="updateDescricaoFilter" update="imagemCameraTable:descricaoFilter" />
+                </p:inputText>
+            </f:facet>
+            <h:outputText value="#{imagemCamera.descricao}" />
+          </p:column>
+
+          <p:column headerText="#{messages.field_label_imagemCamera_camera_plural}" styleClass="action-column" exportable="false">
+            
+            <p:commandButton icon="ui-icon-transfer-e-w"  title="#{messages.field_label_imagemCamera_camera_plural}" action="#{'/pages/imagemCamera/imagemCameraCamera?faces-redirect=true&amp;id='.concat(imagemCamera.id)}" />
+            
+          </p:column>
+          
+          <p:column styleClass="action-column" headerText="#{messages.table_actions_column}" width="115" exportable="false">
+            
+            <p:commandButton action="#{'/pages/imagemCamera/imagemCameraView?faces-redirect=true&amp;id='.concat(imagemCamera.id)}"
+                icon="ui-icon-zoomin"
+                title="#{messages.label_view}" />
+            
+            <p:commandButton action="#{'/pages/imagemCamera/imagemCameraEdit?faces-redirect=true&amp;id='.concat(imagemCamera.id)}"
+                icon="ui-icon-pencil"
+                resetValues="true"
+                rendered="#{imagemCameraBean.isPermitted(imagemCamera, 'imagemCamera:update')}"
+                title="#{messages.label_edit}" />
+                
+            <p:commandButton icon="ui-icon-close" rendered="#{imagemCameraBean.isPermitted(imagemCamera, 'imagemCamera:delete')}"
+                oncomplete="PF('deleteImagemCameraDialogWidget').show()"
+                title="#{messages.label_delete}" >
+                <f:setPropertyActionListener value="#{imagemCamera}"
+                    target="#{imagemCameraBean.imagemCamera}" />
+            </p:commandButton>
+    
+          </p:column>
+          
+        </p:dataTable>
+        
+    </h:form>
+
+    <p:confirmDialog id="deleteImagemCameraDialog" widgetVar="deleteImagemCameraDialogWidget"
+        rendered="#{imagemCameraBean.isPermitted(imagemCameraBean.imagemCamera, 'imagemCamera:delete')}" header="#{messages.label_confirm_deletion}"
+        severity="alarm">
+        <f:facet name="message"><h:outputText value="#{messages.label_delete_record}" escape="false"/></f:facet>
+        <p:outputPanel>
+          <h:form>
+            <div style="text-align: center; margin:10px">
+              <p:commandButton value="#{messages.label_yes}" action="#{imagemCameraBean.delete}" update=":imagemCameraDataForm :growlForm:growl" oncomplete="PF('deleteImagemCameraDialogWidget').hide()" />
+              <p:commandButton value="#{messages.label_no}" onclick="PF('deleteImagemCameraDialogWidget').hide()" type="button" />
+            </div>
+          </h:form>
+        </p:outputPanel>
+    </p:confirmDialog>
+    
+  </ui:define>
+</ui:composition>
+</html>

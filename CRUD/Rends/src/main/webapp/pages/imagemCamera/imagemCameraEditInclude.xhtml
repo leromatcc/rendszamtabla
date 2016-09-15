@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:o="http://omnifaces.org/ui">
+
+        <p:outputPanel styleClass="ui-fluid">
+
+            <p:panelGrid columns="3" columnClasses="ui-grid-col-4,ui-grid-col-6,ui-grid-col-2" layout="grid" style="max-width:400px">
+            
+                <h:outputLabel value="#{messages.field_label_imagemCamera_descricao}:" for="descricaoEditInput" />
+                <p:inputText value="#{imagemCameraBean.imagemCamera.descricao}" id="descricaoEditInput" 
+                    label="#{messages.field_label_imagemCamera_descricao}" />
+                <p:message for="descricaoEditInput" display="icon" />
+
+                <h:outputLabel value="#{messages.field_label_imagemCamera_imagem}:" for="imagemSelectInput" rendered="#{not hideImagemSelectInput}"/>
+                <h:panelGroup rendered="#{not hideImagemSelectInput}">
+                    <p:selectOneMenu value="#{imagemCameraBean.imagemCamera.imagem}"
+                                    id="imagemSelectInput">
+                        <f:selectItem noSelectionOption="true" itemLabel="" />
+                        <f:selectItems value="#{imagemCameraBean.availableImagem}" 
+                                    var="imagens" 
+                                    itemLabel="#{imagens.descricao}"
+                                    itemValue="#{imagens}" />
+                        <o:converter converterId="omnifaces.SelectItemsConverter" list="#{imagemCameraBean.availableImagem}" />
+                    </p:selectOneMenu>
+                </h:panelGroup>
+                <h:panelGroup rendered="#{not hideImagemSelectInput}">
+                
+                    <p:commandButton icon="ui-icon-plusthick" title="#{messages.label_create}"
+                              action="#{imagensBean.prepareNewImagens()}"
+                              update=":createImagemFromEditDialog"
+                              resetValues="true"
+                              oncomplete="PF('createImagemFromEditDialogWidget').show()"
+                              rendered="#{applicationBean.componentExists('createImagemFromEditDialog') and imagemCameraBean.isPermitted('imagens:create')}"
+                              style="vertical-align:top;" partialSubmit="true" process="@this">
+                    </p:commandButton>
+                    
+                    <p:message for="imagemSelectInput" display="icon" rendered="#{not hideImagemSelectInput}"/>
+                </h:panelGroup>
+                
+            </p:panelGrid>
+
+        </p:outputPanel>
+</html>

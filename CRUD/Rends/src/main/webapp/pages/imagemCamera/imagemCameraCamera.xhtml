@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:o="http://omnifaces.org/ui">
+<ui:composition template="/templates/layout.xhtml">
+  <ui:define name="content">
+  
+    <f:metadata>
+      <f:viewParam name="id" value="#{imagemCameraBean.imagemCamera}" converter="#{genericEntityConverter}" />
+      <f:viewAction action="#{imagemCameraBean.onCamerasDialog(imagemCameraBean.imagemCamera)}"/>
+    </f:metadata>
+    
+    <p:outputPanel styleClass="ui-fluid" rendered="#{not imagemCameraBean.isPermitted(imagemCameraBean.imagemCamera, 'imagemCamera:read')}">
+        <h:outputText value="#{messages.access_denied}" />
+    </p:outputPanel>
+    
+    <p:outputPanel id="imagemCameraCamerasPanel" rendered="#{imagemCameraBean.isPermitted(imagemCameraBean.imagemCamera, 'imagemCamera:read')}">
+        <h:form id="imagemCameraCamerasForm">
+            <ui:include src="/pages/imagemCamera/imagemCameraCameraInclude.xhtml" />
+            <div style="margin:10px">
+                <p:commandButton value="#{messages.label_save}"
+                    icon="ui-icon-disk"
+                    actionListener="#{imagemCameraBean.onCamerasSubmit}"
+                    action="/pages/imagemCamera/imagemCamera?faces-redirect=true"
+                    update=":growlForm:growl"
+                    rendered="#{imagemCameraBean.isPermitted(imagemCameraBean.imagemCamera, 'imagemCamera:update')}"
+                    partialSubmit="true" process="@this" />
+                <p:commandButton value="#{messages.label_close}" icon="ui-icon-close"
+                                 action="/pages/imagemCamera/imagemCamera?faces-redirect=true" immediate="true" />
+            </div>
+        </h:form>
+    </p:outputPanel>
+    
+    <p:dialog dynamic="true" id="createCameraDialog"
+        rendered="#{imagemCameraBean.isPermitted('camera:create')}"
+        header="#{messages.dialog_imagemCamera_create_camera}" modal="true"
+        widgetVar="createCameraDialogWidget" maximizable="true">
+        <p:ajax event="close" listener="#{cameraBean.reset}" />
+        <p:outputPanel id="createCameraPanel">
+                <h:form id="createCameraForm">
+                    <ui:include src="/pages/camera/cameraEditInclude.xhtml">
+                        <ui:param name="hideImagemCameraSelectInput" value="true" />
+                    </ui:include>
+                    <div style="text-align: center; margin: 10px">
+                        <p:commandButton
+                            action="#{imagemCameraBean.updateCamera(cameraBean.camera)}"
+                            value="#{messages.label_save}" icon="ui-icon-disk"
+                            actionListener="#{cameraBean.persist}"
+                            update=":imagemCameraCamerasPanel :createCameraPanel :growlForm:growl"
+                            oncomplete="if(!args.validationFailed) PF('createCameraDialogWidget').hide()" />
+                        <p:commandButton value="#{messages.label_close}"
+                            icon="ui-icon-close"
+                            onclick="PF('createCameraDialogWidget').hide()"
+                            type="button" />
+                    </div>
+                </h:form>
+            </p:outputPanel>
+    </p:dialog>
+    
+  </ui:define>
+  
+</ui:composition>
+</html>
