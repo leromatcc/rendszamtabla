@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:o="http://omnifaces.org/ui">
+<ui:composition template="/templates/layout.xhtml">
+  <ui:define name="content">
+  
+    <f:metadata>
+      <f:viewParam name="id" value="#{acessosRegistrosBean.acessosRegistros}" converter="#{genericEntityConverter}" />
+      <f:viewAction action="#{acessosRegistrosBean.onPermissaoAcessosDialog(acessosRegistrosBean.acessosRegistros)}"/>
+    </f:metadata>
+    
+    <p:outputPanel styleClass="ui-fluid" rendered="#{not acessosRegistrosBean.isPermitted(acessosRegistrosBean.acessosRegistros, 'acessosRegistros:read')}">
+        <h:outputText value="#{messages.access_denied}" />
+    </p:outputPanel>
+    
+    <p:outputPanel id="acessosRegistrosPermissaoAcessosPanel" rendered="#{acessosRegistrosBean.isPermitted(acessosRegistrosBean.acessosRegistros, 'acessosRegistros:read')}">
+        <h:form id="acessosRegistrosPermissaoAcessosForm">
+            <ui:include src="/pages/acessosRegistros/acessosRegistrosPermissaoAcessoInclude.xhtml" />
+            <div style="margin:10px">
+                <p:commandButton value="#{messages.label_save}"
+                    icon="ui-icon-disk"
+                    actionListener="#{acessosRegistrosBean.onPermissaoAcessosSubmit}"
+                    action="/pages/acessosRegistros/acessosRegistros?faces-redirect=true"
+                    update=":growlForm:growl"
+                    rendered="#{acessosRegistrosBean.isPermitted(acessosRegistrosBean.acessosRegistros, 'acessosRegistros:update')}"
+                    partialSubmit="true" process="@this" />
+                <p:commandButton value="#{messages.label_close}" icon="ui-icon-close"
+                                 action="/pages/acessosRegistros/acessosRegistros?faces-redirect=true" immediate="true" />
+            </div>
+        </h:form>
+    </p:outputPanel>
+    
+    <p:dialog dynamic="true" id="createPermissaoAcessoDialog"
+        rendered="#{acessosRegistrosBean.isPermitted('acessosPermissao:create')}"
+        header="#{messages.dialog_acessosRegistros_create_permissaoAcesso}" modal="true"
+        widgetVar="createPermissaoAcessoDialogWidget" maximizable="true">
+        <p:ajax event="close" listener="#{acessosPermissaoBean.reset}" />
+        <p:outputPanel id="createPermissaoAcessoPanel">
+                <h:form id="createPermissaoAcessoForm">
+                    <ui:include src="/pages/acessosPermissao/acessosPermissaoEditInclude.xhtml">
+                        <ui:param name="hideAcessosRegistrosSelectInput" value="true" />
+                    </ui:include>
+                    <div style="text-align: center; margin: 10px">
+                        <p:commandButton
+                            action="#{acessosRegistrosBean.updatePermissaoAcesso(acessosPermissaoBean.acessosPermissao)}"
+                            value="#{messages.label_save}" icon="ui-icon-disk"
+                            actionListener="#{acessosPermissaoBean.persist}"
+                            update=":acessosRegistrosPermissaoAcessosPanel :createPermissaoAcessoPanel :growlForm:growl"
+                            oncomplete="if(!args.validationFailed) PF('createPermissaoAcessoDialogWidget').hide()" />
+                        <p:commandButton value="#{messages.label_close}"
+                            icon="ui-icon-close"
+                            onclick="PF('createPermissaoAcessoDialogWidget').hide()"
+                            type="button" />
+                    </div>
+                </h:form>
+            </p:outputPanel>
+    </p:dialog>
+    
+  </ui:define>
+  
+</ui:composition>
+</html>

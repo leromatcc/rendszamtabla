@@ -1,7 +1,7 @@
 package com.rends.service;
 
 import com.rends.domain.CameraEntity;
-import com.rends.domain.EstabelecimentoEntity;
+import com.rends.domain.EmpresaEntity;
 import com.rends.domain.ImagemCameraEntity;
 
 import java.io.Serializable;
@@ -40,13 +40,13 @@ public class CameraService extends BaseService<CameraEntity> implements Serializ
     }
 
     @Transactional
-    public List<CameraEntity> findAvailableCameras(EstabelecimentoEntity estabelecimento) {
-        return entityManager.createQuery("SELECT o FROM Camera o where o.id not in (select o.id from Camera o join o.estabelecimentos p where p = :p)", CameraEntity.class).setParameter("p", estabelecimento).getResultList();
+    public List<CameraEntity> findAvailableCameras(EmpresaEntity empresa) {
+        return entityManager.createQuery("SELECT o FROM Camera o where o.id not in (select o.id from Camera o join o.estabelecimentos p where p = :p)", CameraEntity.class).setParameter("p", empresa).getResultList();
     }
 
     @Transactional
-    public List<CameraEntity> findCamerasByEstabelecimento(EstabelecimentoEntity estabelecimento) {
-        return entityManager.createQuery("SELECT o FROM Camera o where o.id in (select o.id from Camera o join o.estabelecimentos p where p = :p)", CameraEntity.class).setParameter("p", estabelecimento).getResultList();
+    public List<CameraEntity> findCamerasByEstabelecimento(EmpresaEntity empresa) {
+        return entityManager.createQuery("SELECT o FROM Camera o where o.id in (select o.id from Camera o join o.estabelecimentos p where p = :p)", CameraEntity.class).setParameter("p", empresa).getResultList();
     }
 
     @Transactional

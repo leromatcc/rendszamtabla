@@ -37,20 +37,20 @@
     </p:outputPanel>
     
     <p:dialog dynamic="true" id="createEstabelecimentoDialog"
-        rendered="#{cameraBean.isPermitted('estabelecimento:create')}"
+        rendered="#{cameraBean.isPermitted('empresa:create')}"
         header="#{messages.dialog_camera_create_estabelecimento}" modal="true"
         widgetVar="createEstabelecimentoDialogWidget" maximizable="true">
-        <p:ajax event="close" listener="#{estabelecimentoBean.reset}" />
+        <p:ajax event="close" listener="#{empresaBean.reset}" />
         <p:outputPanel id="createEstabelecimentoPanel">
                 <h:form id="createEstabelecimentoForm">
-                    <ui:include src="/pages/estabelecimento/estabelecimentoEditInclude.xhtml">
+                    <ui:include src="/pages/empresa/empresaEditInclude.xhtml">
                         <ui:param name="hideCameraSelectInput" value="true" />
                     </ui:include>
                     <div style="text-align: center; margin: 10px">
                         <p:commandButton
-                            action="#{cameraBean.updateEstabelecimento(estabelecimentoBean.estabelecimento)}"
+                            action="#{cameraBean.updateEstabelecimento(empresaBean.empresa)}"
                             value="#{messages.label_save}" icon="ui-icon-disk"
-                            actionListener="#{estabelecimentoBean.persist}"
+                            actionListener="#{empresaBean.persist}"
                             update=":cameraEstabelecimentosPanel :createEstabelecimentoPanel :growlForm:growl"
                             oncomplete="if(!args.validationFailed) PF('createEstabelecimentoDialogWidget').hide()" />
                         <p:commandButton value="#{messages.label_close}"

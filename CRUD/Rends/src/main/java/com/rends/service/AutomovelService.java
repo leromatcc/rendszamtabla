@@ -1,8 +1,8 @@
 package com.rends.service;
 
+import com.rends.domain.AcessosRegistrosEntity;
 import com.rends.domain.AutomovelEntity;
 import com.rends.domain.AutomovelTipoEntity;
-import com.rends.domain.EstabelecimentoVisitaEntity;
 import com.rends.domain.PessoaAutomovelEntity;
 
 import java.io.Serializable;
@@ -38,15 +38,15 @@ public class AutomovelService extends BaseService<AutomovelEntity> implements Se
         /* This is called before a Automovel is deleted. Place here all the
            steps to cut dependencies to other entities */
         
-        this.cutAllAutomovelEstabelecimentoVisitasAssignments(automovel);
+        this.cutAllAutomovelAcessosRegistrossAssignments(automovel);
         
     }
 
-    // Remove all assignments from all estabelecimentoVisita a automovel. Called before delete a automovel.
+    // Remove all assignments from all acessosRegistros a automovel. Called before delete a automovel.
     @Transactional
-    private void cutAllAutomovelEstabelecimentoVisitasAssignments(AutomovelEntity automovel) {
+    private void cutAllAutomovelAcessosRegistrossAssignments(AutomovelEntity automovel) {
         entityManager
-                .createQuery("UPDATE EstabelecimentoVisita c SET c.automovel = NULL WHERE c.automovel = :p")
+                .createQuery("UPDATE AcessosRegistros c SET c.automovel = NULL WHERE c.automovel = :p")
                 .setParameter("p", automovel).executeUpdate();
     }
     
@@ -70,15 +70,15 @@ public class AutomovelService extends BaseService<AutomovelEntity> implements Se
         return entityManager.createQuery("SELECT o FROM Automovel o where o.id in (select o.id from Automovel o join o.pessoaAutomovels p where p = :p)", AutomovelEntity.class).setParameter("p", pessoaAutomovel).getResultList();
     }
 
-    // Find all estabelecimentoVisita which are not yet assigned to a automovel
+    // Find all acessosRegistros which are not yet assigned to a automovel
     @Transactional
-    public List<AutomovelEntity> findAvailableAutomovel(EstabelecimentoVisitaEntity estabelecimentoVisita) {
+    public List<AutomovelEntity> findAvailableAutomovel(AcessosRegistrosEntity acessosRegistros) {
         Long id = -1L;
-        if (estabelecimentoVisita != null && estabelecimentoVisita.getAutomovel() != null && estabelecimentoVisita.getAutomovel().getId() != null) {
-            id = estabelecimentoVisita.getAutomovel().getId();
+        if (acessosRegistros != null && acessosRegistros.getAutomovel() != null && acessosRegistros.getAutomovel().getId() != null) {
+            id = acessosRegistros.getAutomovel().getId();
         }
         return entityManager.createQuery(
-                "SELECT o FROM Automovel o where o.id NOT IN (SELECT p.automovel.id FROM EstabelecimentoVisita p where p.automovel.id != :id)", AutomovelEntity.class)
+                "SELECT o FROM Automovel o where o.id NOT IN (SELECT p.automovel.id FROM AcessosRegistros p where p.automovel.id != :id)", AutomovelEntity.class)
                 .setParameter("id", id).getResultList();    
     }
 

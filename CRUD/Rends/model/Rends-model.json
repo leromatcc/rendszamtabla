@@ -120,6 +120,15 @@
         {
           "id": 2,
           "name": "endereco",
+          "type": "Relation",
+          "editable": true,
+          "showInTable": true,
+          "referenceType": "n:m",
+          "referenceEntity": "Endereco"
+        },
+        {
+          "id": 3,
+          "name": "documento",
           "type": "String",
           "editable": true,
           "showInTable": true,
@@ -127,18 +136,36 @@
           "required": false
         },
         {
-          "id": 3,
-          "name": "idade",
+          "id": 5,
+          "name": "documentoTipo",
+          "type": "Enumeration (Single)",
+          "editable": true,
+          "showInTable": true,
+          "required": false,
+          "enumerationValues": "RG, CPF, CNPJ, Passaporte, Outro"
+        },
+        {
+          "id": 7,
+          "name": "telefone",
           "type": "String",
           "editable": true,
           "showInTable": true,
           "stringLength": 50,
-          "required": false
+          "required": true
+        },
+        {
+          "id": 8,
+          "name": "telefoneTIpo",
+          "type": "Enumeration (Single)",
+          "editable": true,
+          "showInTable": true,
+          "required": false,
+          "enumerationValues": "Fixo, Celular, Trabalho, Contato, Outro"
         }
       ]
     },
     {
-      "name": "Estabelecimento",
+      "name": "Empresa",
       "id": 3,
       "lookupField": "1",
       "aclEnabled": true,
@@ -189,7 +216,25 @@
           "type": "String",
           "editable": true,
           "showInTable": true,
-          "stringLength": 50,
+          "stringLength": "500",
+          "required": false
+        },
+        {
+          "id": 3,
+          "name": "endereco",
+          "type": "Relation",
+          "editable": true,
+          "showInTable": true,
+          "referenceType": "n:m",
+          "referenceEntity": "Endereco"
+        },
+        {
+          "id": 4,
+          "name": "nome",
+          "type": "String",
+          "editable": true,
+          "showInTable": true,
+          "stringLength": "500",
           "required": false
         }
       ]
@@ -402,7 +447,7 @@
       ]
     },
     {
-      "name": "EstabelecimentoVisita",
+      "name": "AcessosRegistros",
       "id": 7,
       "lookupField": "3",
       "aclEnabled": true,
@@ -457,12 +502,12 @@
         },
         {
           "id": 2,
-          "name": "estabelecimento",
+          "name": "estacionamento",
           "type": "Relation",
           "editable": true,
           "showInTable": true,
-          "referenceType": "1:1",
-          "referenceEntity": "Estabelecimento"
+          "referenceType": "n:m",
+          "referenceEntity": "Estacionamento"
         },
         {
           "id": 3,
@@ -497,7 +542,7 @@
           "editable": true,
           "showInTable": true,
           "referenceType": "n:m",
-          "referenceEntity": "PermissaoEstabelecimentoPessoa"
+          "referenceEntity": "AcessosPermissao"
         }
       ]
     },
@@ -572,7 +617,7 @@
           "editable": true,
           "showInTable": true,
           "referenceType": "n:m",
-          "referenceEntity": "Estabelecimento"
+          "referenceEntity": "Empresa"
         }
       ]
     },
@@ -711,7 +756,7 @@
       ]
     },
     {
-      "name": "PermissaoEstabelecimentoPessoa",
+      "name": "AcessosPermissao",
       "id": 11,
       "lookupField": "1",
       "aclEnabled": true,
@@ -776,12 +821,12 @@
         },
         {
           "id": 3,
-          "name": "estabelecimento",
+          "name": "empresa",
           "type": "Relation",
           "editable": true,
           "showInTable": true,
           "referenceType": "1:1",
-          "referenceEntity": "Estabelecimento"
+          "referenceEntity": "Empresa"
         },
         {
           "id": 4,
@@ -806,6 +851,218 @@
           "editable": true,
           "showInTable": true,
           "required": false
+        }
+      ]
+    },
+    {
+      "name": "Endereco",
+      "id": 12,
+      "lookupField": "1",
+      "aclEnabled": true,
+      "authorization": [
+        {
+          "roleId": 1,
+          "roleName": "Administrator",
+          "createPerm": 1,
+          "readPerm": 1,
+          "updatePerm": 1,
+          "deletePerm": 1,
+          "changeOwnerPerm": 1,
+          "ownerRoleEnabled": false
+        },
+        {
+          "roleId": 2,
+          "roleName": "Public",
+          "createPerm": "0",
+          "readPerm": "0",
+          "updatePerm": "0",
+          "deletePerm": "0",
+          "changeOwnerPerm": 0,
+          "ownerRoleEnabled": false
+        },
+        {
+          "roleId": "registered001",
+          "roleName": "Registered",
+          "createPerm": 1,
+          "readPerm": 1,
+          "updatePerm": 1,
+          "deletePerm": 1,
+          "changeOwnerPerm": 0,
+          "ownerRoleEnabled": false
+        }
+      ],
+      "fields": [
+        {
+          "id": 0,
+          "name": "id",
+          "type": "Autoincremented ID",
+          "editable": false,
+          "showInTable": false,
+          "required": true
+        },
+        {
+          "id": 1,
+          "name": "descricao",
+          "type": "String",
+          "editable": true,
+          "showInTable": true,
+          "stringLength": 50,
+          "required": false
+        },
+        {
+          "id": 2,
+          "name": "cidade",
+          "type": "String",
+          "editable": true,
+          "showInTable": true,
+          "stringLength": 50,
+          "required": false
+        },
+        {
+          "id": 3,
+          "name": "estado",
+          "type": "String",
+          "editable": true,
+          "showInTable": true,
+          "stringLength": 50,
+          "required": false
+        },
+        {
+          "id": 4,
+          "name": "pais",
+          "type": "String",
+          "editable": true,
+          "showInTable": true,
+          "stringLength": 50,
+          "required": false
+        },
+        {
+          "id": 5,
+          "name": "cep",
+          "type": "String",
+          "editable": true,
+          "showInTable": true,
+          "stringLength": 50,
+          "required": false
+        },
+        {
+          "id": 6,
+          "name": "logradouro",
+          "type": "String",
+          "editable": true,
+          "showInTable": true,
+          "stringLength": 50,
+          "required": false
+        },
+        {
+          "id": 7,
+          "name": "numero",
+          "type": "String",
+          "editable": true,
+          "showInTable": true,
+          "stringLength": 50,
+          "required": false
+        },
+        {
+          "id": 8,
+          "name": "tipo",
+          "type": "Enumeration (Single)",
+          "editable": true,
+          "showInTable": true,
+          "required": false,
+          "enumerationValues": "Casa, Condominio, Apartamento, Comercial, Outro"
+        },
+        {
+          "id": 9,
+          "name": "complemento",
+          "type": "String",
+          "editable": true,
+          "showInTable": true,
+          "stringLength": 50,
+          "required": false
+        },
+        {
+          "id": 10,
+          "name": "referencia",
+          "type": "String",
+          "editable": true,
+          "showInTable": true,
+          "stringLength": 50,
+          "required": false
+        }
+      ]
+    },
+    {
+      "name": "Estacionamento",
+      "id": 13,
+      "lookupField": 0,
+      "authorization": [
+        {
+          "roleId": 1,
+          "roleName": "Administrator",
+          "createPerm": 1,
+          "readPerm": 1,
+          "updatePerm": 1,
+          "deletePerm": 1,
+          "changeOwnerPerm": 1,
+          "ownerRoleEnabled": false
+        },
+        {
+          "roleId": 2,
+          "roleName": "Public",
+          "createPerm": 1,
+          "readPerm": 1,
+          "updatePerm": 1,
+          "deletePerm": 1,
+          "changeOwnerPerm": 0,
+          "ownerRoleEnabled": false
+        },
+        {
+          "roleId": "registered001",
+          "roleName": "Registered",
+          "createPerm": 1,
+          "readPerm": 1,
+          "updatePerm": 1,
+          "deletePerm": 1,
+          "changeOwnerPerm": 0,
+          "ownerRoleEnabled": false
+        }
+      ],
+      "fields": [
+        {
+          "id": 0,
+          "name": "id",
+          "type": "Autoincremented ID",
+          "editable": false,
+          "showInTable": false,
+          "required": true
+        },
+        {
+          "id": 1,
+          "name": "descricao",
+          "type": "String",
+          "editable": true,
+          "showInTable": true,
+          "stringLength": 50,
+          "required": false
+        },
+        {
+          "id": 2,
+          "name": "quantidadeVagas",
+          "type": "String",
+          "editable": true,
+          "showInTable": true,
+          "stringLength": 50,
+          "required": false
+        },
+        {
+          "id": 3,
+          "name": "empresa",
+          "type": "Relation",
+          "editable": true,
+          "showInTable": true,
+          "referenceType": "n:m",
+          "referenceEntity": "Empresa"
         }
       ]
     }
@@ -841,5 +1098,5 @@
       }
     ]
   },
-  "guid": "e659191b-07d4-4256-9755-b93c078ed494"
+  "guid": "67a91a17-de0a-4feb-7a4f-51e282d22734"
 }

@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:o="http://omnifaces.org/ui">
+<ui:composition template="/templates/layout.xhtml">
+  <ui:define name="content">
+  
+    <f:metadata>
+      <f:viewParam name="id" value="#{estacionamentoBean.estacionamento}" converter="#{genericEntityConverter}" />
+      <f:viewAction action="#{estacionamentoBean.onEmpresasDialog(estacionamentoBean.estacionamento)}"/>
+    </f:metadata>
+    
+    <p:outputPanel id="estacionamentoEmpresasPanel" >
+        <h:form id="estacionamentoEmpresasForm">
+            <ui:include src="/pages/estacionamento/estacionamentoEmpresaInclude.xhtml" />
+            <div style="margin:10px">
+                <p:commandButton value="#{messages.label_save}"
+                    icon="ui-icon-disk"
+                    actionListener="#{estacionamentoBean.onEmpresasSubmit}"
+                    action="/pages/estacionamento/estacionamento?faces-redirect=true"
+                    update=":growlForm:growl"
+                    partialSubmit="true" process="@this" />
+                <p:commandButton value="#{messages.label_close}" icon="ui-icon-close"
+                                 action="/pages/estacionamento/estacionamento?faces-redirect=true" immediate="true" />
+            </div>
+        </h:form>
+    </p:outputPanel>
+    
+    <p:dialog dynamic="true" id="createEmpresaDialog"
+        rendered="#{estacionamentoBean.isPermitted('empresa:create')}"
+        header="#{messages.dialog_estacionamento_create_empresa}" modal="true"
+        widgetVar="createEmpresaDialogWidget" maximizable="true">
+        <p:ajax event="close" listener="#{empresaBean.reset}" />
+        <p:outputPanel id="createEmpresaPanel">
+                <h:form id="createEmpresaForm">
+                    <ui:include src="/pages/empresa/empresaEditInclude.xhtml">
+                        <ui:param name="hideEstacionamentoSelectInput" value="true" />
+                    </ui:include>
+                    <div style="text-align: center; margin: 10px">
+                        <p:commandButton
+                            action="#{estacionamentoBean.updateEmpresa(empresaBean.empresa)}"
+                            value="#{messages.label_save}" icon="ui-icon-disk"
+                            actionListener="#{empresaBean.persist}"
+                            update=":estacionamentoEmpresasPanel :createEmpresaPanel :growlForm:growl"
+                            oncomplete="if(!args.validationFailed) PF('createEmpresaDialogWidget').hide()" />
+                        <p:commandButton value="#{messages.label_close}"
+                            icon="ui-icon-close"
+                            onclick="PF('createEmpresaDialogWidget').hide()"
+                            type="button" />
+                    </div>
+                </h:form>
+            </p:outputPanel>
+    </p:dialog>
+    
+  </ui:define>
+  
+</ui:composition>
+</html>

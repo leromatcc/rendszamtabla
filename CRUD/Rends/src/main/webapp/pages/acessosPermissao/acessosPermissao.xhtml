@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:o="http://omnifaces.org/ui">
+<ui:composition template="/templates/layout.xhtml">
+  <ui:define name="content">
+
+    <h:form prependId="false" id="acessosPermissaoDataForm" onkeypress="if (event.keyCode == 13) {return false; }">
+
+        <p:dataTable id="acessosPermissaoTable" value="#{acessosPermissaoBean.acessosPermissaoList}" var="acessosPermissao" resizableColumns="true" paginator="true"
+                paginatorTemplate=" {CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                rowsPerPageTemplate="5,10,25,50" rows="10" draggableColumns="true"
+                paginatorPosition="bottom" widgetVar="acessosPermissaoTable" emptyMessage="#{messages.label_no_records_found}"
+                reflow="true">
+        
+          <f:facet name="header" >
+
+              <p:commandButton value="#{messages.create_new_acessosPermissao}" icon="ui-icon-plusthick"
+                      action="/pages/acessosPermissao/acessosPermissaoCreate?faces-redirect=true"
+                      rendered="#{acessosPermissaoBean.isPermitted('acessosPermissao:create')}" style="float:left" />
+              
+              <p:commandButton id="toggler" type="button" value="#{messages.table_select_columns}" icon="ui-icon-calculator" />
+              <p:columnToggler datasource="acessosPermissaoTable" trigger="toggler" />
+          </f:facet>
+          
+          <p:column  headerText="#{messages.field_label_acessosPermissao_descricao}" sortBy="#{acessosPermissao.descricao}" filterBy="#{acessosPermissao.descricao}">
+            <f:facet name="filter">
+                <p:inputText id="descricaoFilter"
+                        onkeypress="if (event.keyCode == 13) {PF('acessosPermissaoTable').filter(); updateDescricaoFilter(); return false; }" >
+                    <p:remoteCommand name="updateDescricaoFilter" update="acessosPermissaoTable:descricaoFilter" />
+                </p:inputText>
+            </f:facet>
+            <h:outputText value="#{acessosPermissao.descricao}" />
+          </p:column>
+
+          <p:column headerText="#{messages.field_label_acessosPermissao_dataInicio}" sortBy="#{acessosPermissao.dataInicio}" filterBy="#{acessosPermissao.dataInicio}">
+            <f:facet name="filter">
+                <p:inputText id="dataInicioFilter"
+                        onkeyup="if (event.keyCode == 13) {PF('acessosPermissaoTable').filter(); updateDataInicioFilter(); return false;}" >
+                    <p:remoteCommand name="updateDataInicioFilter" update="acessosPermissaoTable:dataInicioFilter" />
+                    <f:convertDateTime />
+                </p:inputText>
+            </f:facet>
+            <h:outputText value="#{acessosPermissao.dataInicio}"><f:convertDateTime /></h:outputText>
+          </p:column>
+
+          <p:column headerText="#{messages.field_label_acessosPermissao_dataFinal}" sortBy="#{acessosPermissao.dataFinal}" filterBy="#{acessosPermissao.dataFinal}">
+            <f:facet name="filter">
+                <p:inputText id="dataFinalFilter"
+                        onkeyup="if (event.keyCode == 13) {PF('acessosPermissaoTable').filter(); updateDataFinalFilter(); return false;}" >
+                    <p:remoteCommand name="updateDataFinalFilter" update="acessosPermissaoTable:dataFinalFilter" />
+                    <f:convertDateTime />
+                </p:inputText>
+            </f:facet>
+            <h:outputText value="#{acessosPermissao.dataFinal}"><f:convertDateTime /></h:outputText>
+          </p:column>
+
+          <p:column headerText="#{messages.field_label_acessosPermissao_ativo}" sortBy="#{acessosPermissao.ativo}" filterBy="#{acessosPermissao.ativo}" exportable="false">
+            <f:facet name="filter">
+                 <p:selectOneMenu converter="javax.faces.Boolean"
+                        onchange="PF('acessosPermissaoTable').filter(); return false;" style="width:50%">
+                        <f:selectItem itemLabel="&nbsp;" itemValue="" />
+                        <f:selectItem itemLabel="#{messages.field_label_acessosPermissao_ativo_true}" itemValue="true" />
+                        <f:selectItem itemLabel="#{messages.field_label_acessosPermissao_ativo_false}" itemValue="false" />
+                </p:selectOneMenu>
+            </f:facet>
+            <h:panelGroup styleClass="ui-icon ui-icon-check" rendered="#{acessosPermissao.ativo}"/>
+          </p:column>
+
+          <p:column headerText="#{messages.field_label_acessosPermissao_pessoa_plural}" styleClass="action-column" exportable="false">
+            
+            <p:commandButton icon="ui-icon-transfer-e-w"  title="#{messages.field_label_acessosPermissao_pessoa_plural}" action="#{'/pages/acessosPermissao/acessosPermissaoPessoa?faces-redirect=true&amp;id='.concat(acessosPermissao.id)}" />
+            
+          </p:column>
+          
+          <p:column styleClass="action-column" headerText="#{messages.table_actions_column}" width="115" exportable="false">
+            
+            <p:commandButton action="#{'/pages/acessosPermissao/acessosPermissaoView?faces-redirect=true&amp;id='.concat(acessosPermissao.id)}"
+                icon="ui-icon-zoomin"
+                title="#{messages.label_view}" />
+            
+            <p:commandButton action="#{'/pages/acessosPermissao/acessosPermissaoEdit?faces-redirect=true&amp;id='.concat(acessosPermissao.id)}"
+                icon="ui-icon-pencil"
+                resetValues="true"
+                rendered="#{acessosPermissaoBean.isPermitted(acessosPermissao, 'acessosPermissao:update')}"
+                title="#{messages.label_edit}" />
+                
+            <p:commandButton icon="ui-icon-close" rendered="#{acessosPermissaoBean.isPermitted(acessosPermissao, 'acessosPermissao:delete')}"
+                oncomplete="PF('deleteAcessosPermissaoDialogWidget').show()"
+                title="#{messages.label_delete}" >
+                <f:setPropertyActionListener value="#{acessosPermissao}"
+                    target="#{acessosPermissaoBean.acessosPermissao}" />
+            </p:commandButton>
+    
+          </p:column>
+          
+        </p:dataTable>
+        
+    </h:form>
+
+    <p:confirmDialog id="deleteAcessosPermissaoDialog" widgetVar="deleteAcessosPermissaoDialogWidget"
+        rendered="#{acessosPermissaoBean.isPermitted(acessosPermissaoBean.acessosPermissao, 'acessosPermissao:delete')}" header="#{messages.label_confirm_deletion}"
+        severity="alarm">
+        <f:facet name="message"><h:outputText value="#{messages.label_delete_record}" escape="false"/></f:facet>
+        <p:outputPanel>
+          <h:form>
+            <div style="text-align: center; margin:10px">
+              <p:commandButton value="#{messages.label_yes}" action="#{acessosPermissaoBean.delete}" update=":acessosPermissaoDataForm :growlForm:growl" oncomplete="PF('deleteAcessosPermissaoDialogWidget').hide()" />
+              <p:commandButton value="#{messages.label_no}" onclick="PF('deleteAcessosPermissaoDialogWidget').hide()" type="button" />
+            </div>
+          </h:form>
+        </p:outputPanel>
+    </p:confirmDialog>
+    
+  </ui:define>
+</ui:composition>
+</html>

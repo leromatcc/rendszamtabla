@@ -16,11 +16,17 @@
         <h:outputText value="#{messages.field_label_pessoa_nome}:" />
         <h:outputText value="#{pessoaBean.pessoa.nome}" />
 
-        <h:outputText value="#{messages.field_label_pessoa_endereco}:" />
-        <h:outputText value="#{pessoaBean.pessoa.endereco}" />
+        <h:outputText value="#{messages.field_label_pessoa_documento}:" />
+        <h:outputText value="#{pessoaBean.pessoa.documento}" />
 
-        <h:outputText value="#{messages.field_label_pessoa_idade}:" />
-        <h:outputText value="#{pessoaBean.pessoa.idade}" />
+        <h:outputText value="#{messages.field_label_pessoa_documentoTipo}:" />
+        <h:outputText value="#{pessoaBean.getLabelForDocumentoTipo(pessoaBean.pessoa.documentoTipo)}" />
+
+        <h:outputText value="#{messages.field_label_pessoa_telefone}:" />
+        <h:outputText value="#{pessoaBean.pessoa.telefone}" />
+
+        <h:outputText value="#{messages.field_label_pessoa_telefoneTIpo}:" />
+        <h:outputText value="#{pessoaBean.getLabelForTelefoneTIpo(pessoaBean.pessoa.telefoneTIpo)}" />
 
     </h:panelGrid>
 </html>

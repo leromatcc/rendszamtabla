@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:o="http://omnifaces.org/ui">
+
+        <p:outputPanel styleClass="ui-fluid">
+
+            <p:panelGrid columns="3" columnClasses="ui-grid-col-4,ui-grid-col-6,ui-grid-col-2" layout="grid" style="max-width:400px">
+            
+                <h:outputLabel value="#{messages.field_label_endereco_descricao}:" for="descricaoEditInput" />
+                <p:inputText value="#{enderecoBean.endereco.descricao}" id="descricaoEditInput" 
+                    label="#{messages.field_label_endereco_descricao}" />
+                <p:message for="descricaoEditInput" display="icon" />
+
+                <h:outputLabel value="#{messages.field_label_endereco_cidade}:" for="cidadeEditInput" />
+                <p:inputText value="#{enderecoBean.endereco.cidade}" id="cidadeEditInput" 
+                    label="#{messages.field_label_endereco_cidade}" />
+                <p:message for="cidadeEditInput" display="icon" />
+
+                <h:outputLabel value="#{messages.field_label_endereco_estado}:" for="estadoEditInput" />
+                <p:inputText value="#{enderecoBean.endereco.estado}" id="estadoEditInput" 
+                    label="#{messages.field_label_endereco_estado}" />
+                <p:message for="estadoEditInput" display="icon" />
+
+                <h:outputLabel value="#{messages.field_label_endereco_pais}:" for="paisEditInput" />
+                <p:inputText value="#{enderecoBean.endereco.pais}" id="paisEditInput" 
+                    label="#{messages.field_label_endereco_pais}" />
+                <p:message for="paisEditInput" display="icon" />
+
+                <h:outputLabel value="#{messages.field_label_endereco_cep}:" for="cepEditInput" />
+                <p:inputText value="#{enderecoBean.endereco.cep}" id="cepEditInput" 
+                    label="#{messages.field_label_endereco_cep}" />
+                <p:message for="cepEditInput" display="icon" />
+
+                <h:outputLabel value="#{messages.field_label_endereco_logradouro}:" for="logradouroEditInput" />
+                <p:inputText value="#{enderecoBean.endereco.logradouro}" id="logradouroEditInput" 
+                    label="#{messages.field_label_endereco_logradouro}" />
+                <p:message for="logradouroEditInput" display="icon" />
+
+                <h:outputLabel value="#{messages.field_label_endereco_numero}:" for="numeroEditInput" />
+                <p:inputText value="#{enderecoBean.endereco.numero}" id="numeroEditInput" 
+                    label="#{messages.field_label_endereco_numero}" />
+                <p:message for="numeroEditInput" display="icon" />
+
+                <h:outputLabel value="#{messages.field_label_endereco_tipo}:" for="tipoSelect" />
+                <p:selectOneMenu value="#{enderecoBean.endereco.tipo}" converter="omnifaces.GenericEnumConverter"  id="tipoSelect">
+                    <f:selectItem noSelectionOption="true" itemLabel="" />
+                    <f:selectItems value="#{enderecoBean.tipoSelectItems}" />
+                </p:selectOneMenu>
+                <p:message for="tipoSelect" display="icon" />
+
+                <h:outputLabel value="#{messages.field_label_endereco_complemento}:" for="complementoEditInput" />
+                <p:inputText value="#{enderecoBean.endereco.complemento}" id="complementoEditInput" 
+                    label="#{messages.field_label_endereco_complemento}" />
+                <p:message for="complementoEditInput" display="icon" />
+
+                <h:outputLabel value="#{messages.field_label_endereco_referencia}:" for="referenciaEditInput" />
+                <p:inputText value="#{enderecoBean.endereco.referencia}" id="referenciaEditInput" 
+                    label="#{messages.field_label_endereco_referencia}" />
+                <p:message for="referenciaEditInput" display="icon" />
+
+            </p:panelGrid>
+
+        </p:outputPanel>
+</html>

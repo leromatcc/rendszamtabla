@@ -14,15 +14,15 @@
     <h:panelGrid rendered="#{cameraBean.isPermitted(cameraBean.camera, 'camera:read')}">
        
        <p:commandButton value="#{messages.dialog_camera_create_estabelecimento}" icon="ui-icon-plusthick" title="#{messages.label_create}"
-                  actionListener="#{estabelecimentoBean.prepareNewEstabelecimento()}"
+                  actionListener="#{empresaBean.prepareNewEmpresa()}"
                   update=":createEstabelecimentoDialog :growlForm:growl" resetValues="true"
                   oncomplete="PF('createEstabelecimentoDialogWidget').show()" partialSubmit="true" process="@this"
-                  rendered="#{cameraBean.isPermitted('estabelecimento:create') and cameraBean.isPermitted(cameraBean.camera, 'camera:update')}"
+                  rendered="#{cameraBean.isPermitted('empresa:create') and cameraBean.isPermitted(cameraBean.camera, 'camera:update')}"
                   style="float:right;">
        </p:commandButton>
        
-       <p:pickList id="cameraEstabelecimentosPickList" var="estabelecimento" itemLabel="#{estabelecimento.descricao}"
-                   value="#{cameraBean.estabelecimentos}" itemValue="#{estabelecimento}"
+       <p:pickList id="cameraEstabelecimentosPickList" var="empresa" itemLabel="#{empresa.descricao}"
+                   value="#{cameraBean.estabelecimentos}" itemValue="#{empresa}"
                    showSourceFilter="true" showTargetFilter="true" filterMatchMode="contains"
                    disabled="#{not cameraBean.isPermitted(cameraBean.camera, 'camera:update')}">
            <o:converter converterId="omnifaces.ListConverter" list="#{cameraBean.fullEstabelecimentosList}"/>

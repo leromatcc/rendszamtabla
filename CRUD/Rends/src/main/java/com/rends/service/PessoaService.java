@@ -1,7 +1,8 @@
 package com.rends.service;
 
+import com.rends.domain.AcessosPermissaoEntity;
 import com.rends.domain.AutomovelEntity;
-import com.rends.domain.PermissaoEstabelecimentoPessoaEntity;
+import com.rends.domain.EnderecoEntity;
 import com.rends.domain.PessoaAutomovelEntity;
 import com.rends.domain.PessoaEntity;
 
@@ -51,13 +52,23 @@ public class PessoaService extends BaseService<PessoaEntity> implements Serializ
     }
     
     @Transactional
-    public List<PessoaEntity> findAvailablePessoas(PermissaoEstabelecimentoPessoaEntity permissaoEstabelecimentoPessoa) {
-        return entityManager.createQuery("SELECT o FROM Pessoa o where o.id not in (select o.id from Pessoa o join o.permissaoEstabelecimentoPessoas p where p = :p)", PessoaEntity.class).setParameter("p", permissaoEstabelecimentoPessoa).getResultList();
+    public List<PessoaEntity> findAvailablePessoas(EnderecoEntity endereco) {
+        return entityManager.createQuery("SELECT o FROM Pessoa o where o.id not in (select o.id from Pessoa o join o.enderecos p where p = :p)", PessoaEntity.class).setParameter("p", endereco).getResultList();
     }
 
     @Transactional
-    public List<PessoaEntity> findPessoasByPermissaoEstabelecimentoPessoa(PermissaoEstabelecimentoPessoaEntity permissaoEstabelecimentoPessoa) {
-        return entityManager.createQuery("SELECT o FROM Pessoa o where o.id in (select o.id from Pessoa o join o.permissaoEstabelecimentoPessoas p where p = :p)", PessoaEntity.class).setParameter("p", permissaoEstabelecimentoPessoa).getResultList();
+    public List<PessoaEntity> findPessoasByEndereco(EnderecoEntity endereco) {
+        return entityManager.createQuery("SELECT o FROM Pessoa o where o.id in (select o.id from Pessoa o join o.enderecos p where p = :p)", PessoaEntity.class).setParameter("p", endereco).getResultList();
+    }
+
+    @Transactional
+    public List<PessoaEntity> findAvailablePessoas(AcessosPermissaoEntity acessosPermissao) {
+        return entityManager.createQuery("SELECT o FROM Pessoa o where o.id not in (select o.id from Pessoa o join o.acessosPermissaos p where p = :p)", PessoaEntity.class).setParameter("p", acessosPermissao).getResultList();
+    }
+
+    @Transactional
+    public List<PessoaEntity> findPessoasByAcessosPermissao(AcessosPermissaoEntity acessosPermissao) {
+        return entityManager.createQuery("SELECT o FROM Pessoa o where o.id in (select o.id from Pessoa o join o.acessosPermissaos p where p = :p)", PessoaEntity.class).setParameter("p", acessosPermissao).getResultList();
     }
 
     // Find all pessoaAutomovel which are not yet assigned to a pessoa
@@ -72,4 +83,11 @@ public class PessoaService extends BaseService<PessoaEntity> implements Serializ
                 .setParameter("id", id).getResultList();    
     }
 
+    @Transactional
+    public PessoaEntity fetchEnderecos(PessoaEntity pessoa) {
+        pessoa = find(pessoa.getId());
+        pessoa.getEnderecos().size();
+        return pessoa;
+    }
+    
 }

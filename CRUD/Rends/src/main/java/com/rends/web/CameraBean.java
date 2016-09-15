@@ -1,9 +1,9 @@
 package com.rends.web;
 
 import com.rends.domain.CameraEntity;
-import com.rends.domain.EstabelecimentoEntity;
+import com.rends.domain.EmpresaEntity;
 import com.rends.service.CameraService;
-import com.rends.service.EstabelecimentoService;
+import com.rends.service.EmpresaService;
 import com.rends.service.security.SecurityWrapper;
 import com.rends.web.util.MessageFactory;
 
@@ -40,9 +40,9 @@ public class CameraBean implements Serializable {
     private CameraService cameraService;
     
     @Inject
-    private EstabelecimentoService estabelecimentoService;
+    private EmpresaService empresaService;
     
-    private DualListModel<EstabelecimentoEntity> estabelecimentos;
+    private DualListModel<EmpresaEntity> estabelecimentos;
     private List<String> transferedEstabelecimentoIDs;
     private List<String> removedEstabelecimentoIDs;
     
@@ -127,16 +127,16 @@ public class CameraBean implements Serializable {
         
     }
 
-    public DualListModel<EstabelecimentoEntity> getEstabelecimentos() {
+    public DualListModel<EmpresaEntity> getEstabelecimentos() {
         return estabelecimentos;
     }
 
-    public void setEstabelecimentos(DualListModel<EstabelecimentoEntity> estabelecimentos) {
-        this.estabelecimentos = estabelecimentos;
+    public void setEstabelecimentos(DualListModel<EmpresaEntity> empresas) {
+        this.estabelecimentos = empresas;
     }
     
-    public List<EstabelecimentoEntity> getFullEstabelecimentosList() {
-        List<EstabelecimentoEntity> allList = new ArrayList<>();
+    public List<EmpresaEntity> getFullEstabelecimentosList() {
+        List<EmpresaEntity> allList = new ArrayList<>();
         allList.addAll(estabelecimentos.getSource());
         allList.addAll(estabelecimentos.getTarget());
         return allList;
@@ -145,11 +145,11 @@ public class CameraBean implements Serializable {
     public void onEstabelecimentosDialog(CameraEntity camera) {
         // Prepare the estabelecimento PickList
         this.camera = camera;
-        List<EstabelecimentoEntity> selectedEstabelecimentosFromDB = estabelecimentoService
+        List<EmpresaEntity> selectedEmpresasFromDB = empresaService
                 .findEstabelecimentosByCamera(this.camera);
-        List<EstabelecimentoEntity> availableEstabelecimentosFromDB = estabelecimentoService
+        List<EmpresaEntity> availableEmpresasFromDB = empresaService
                 .findAvailableEstabelecimentos(this.camera);
-        this.estabelecimentos = new DualListModel<>(availableEstabelecimentosFromDB, selectedEstabelecimentosFromDB);
+        this.estabelecimentos = new DualListModel<>(availableEmpresasFromDB, selectedEmpresasFromDB);
         
         transferedEstabelecimentoIDs = new ArrayList<>();
         removedEstabelecimentoIDs = new ArrayList<>();
@@ -159,7 +159,7 @@ public class CameraBean implements Serializable {
         // If a estabelecimento is transferred within the PickList, we just transfer it in this
         // bean scope. We do not change anything it the database, yet.
         for (Object item : event.getItems()) {
-            String id = ((EstabelecimentoEntity) item).getId().toString();
+            String id = ((EmpresaEntity) item).getId().toString();
             if (event.isAdd()) {
                 transferedEstabelecimentoIDs.add(id);
                 removedEstabelecimentoIDs.remove(id);
@@ -171,35 +171,35 @@ public class CameraBean implements Serializable {
         
     }
     
-    public void updateEstabelecimento(EstabelecimentoEntity estabelecimento) {
+    public void updateEstabelecimento(EmpresaEntity empresa) {
         // If a new estabelecimento is created, we persist it to the database,
         // but we do not assign it to this camera in the database, yet.
-        estabelecimentos.getTarget().add(estabelecimento);
-        transferedEstabelecimentoIDs.add(estabelecimento.getId().toString());
+        estabelecimentos.getTarget().add(empresa);
+        transferedEstabelecimentoIDs.add(empresa.getId().toString());
     }
     
     public void onEstabelecimentosSubmit() {
         // Now we save the changed of the PickList to the database.
         try {
             
-            List<EstabelecimentoEntity> selectedEstabelecimentosFromDB = estabelecimentoService.findEstabelecimentosByCamera(this.camera);
-            List<EstabelecimentoEntity> availableEstabelecimentosFromDB = estabelecimentoService.findAvailableEstabelecimentos(this.camera);
+            List<EmpresaEntity> selectedEmpresasFromDB = empresaService.findEstabelecimentosByCamera(this.camera);
+            List<EmpresaEntity> availableEmpresasFromDB = empresaService.findAvailableEstabelecimentos(this.camera);
 
             // Because estabelecimentos are lazily loaded, we need to fetch them now
             this.camera = cameraService.fetchEstabelecimentos(this.camera);
             
-            for (EstabelecimentoEntity estabelecimento : selectedEstabelecimentosFromDB) {
-                if (removedEstabelecimentoIDs.contains(estabelecimento.getId().toString())) {
+            for (EmpresaEntity empresa : selectedEmpresasFromDB) {
+                if (removedEstabelecimentoIDs.contains(empresa.getId().toString())) {
                     
-                    this.camera.getEstabelecimentos().remove(estabelecimento);
+                    this.camera.getEstabelecimentos().remove(empresa);
                     
                 }
             }
     
-            for (EstabelecimentoEntity estabelecimento : availableEstabelecimentosFromDB) {
-                if (transferedEstabelecimentoIDs.contains(estabelecimento.getId().toString())) {
+            for (EmpresaEntity empresa : availableEmpresasFromDB) {
+                if (transferedEstabelecimentoIDs.contains(empresa.getId().toString())) {
                     
-                    this.camera.getEstabelecimentos().add(estabelecimento);
+                    this.camera.getEstabelecimentos().add(empresa);
                     
                 }
             }

@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:o="http://omnifaces.org/ui">
+<ui:composition template="/templates/layout.xhtml">
+  <ui:define name="content">
+  
+    <f:metadata>
+      <f:viewParam name="id" value="#{pessoaBean.pessoa}" converter="#{genericEntityConverter}" />
+      <f:viewAction action="#{pessoaBean.onEnderecosDialog(pessoaBean.pessoa)}"/>
+    </f:metadata>
+    
+    <p:outputPanel styleClass="ui-fluid" rendered="#{not pessoaBean.isPermitted(pessoaBean.pessoa, 'pessoa:read')}">
+        <h:outputText value="#{messages.access_denied}" />
+    </p:outputPanel>
+    
+    <p:outputPanel id="pessoaEnderecosPanel" rendered="#{pessoaBean.isPermitted(pessoaBean.pessoa, 'pessoa:read')}">
+        <h:form id="pessoaEnderecosForm">
+            <ui:include src="/pages/pessoa/pessoaEnderecoInclude.xhtml" />
+            <div style="margin:10px">
+                <p:commandButton value="#{messages.label_save}"
+                    icon="ui-icon-disk"
+                    actionListener="#{pessoaBean.onEnderecosSubmit}"
+                    action="/pages/pessoa/pessoa?faces-redirect=true"
+                    update=":growlForm:growl"
+                    rendered="#{pessoaBean.isPermitted(pessoaBean.pessoa, 'pessoa:update')}"
+                    partialSubmit="true" process="@this" />
+                <p:commandButton value="#{messages.label_close}" icon="ui-icon-close"
+                                 action="/pages/pessoa/pessoa?faces-redirect=true" immediate="true" />
+            </div>
+        </h:form>
+    </p:outputPanel>
+    
+    <p:dialog dynamic="true" id="createEnderecoDialog"
+        rendered="#{pessoaBean.isPermitted('endereco:create')}"
+        header="#{messages.dialog_pessoa_create_endereco}" modal="true"
+        widgetVar="createEnderecoDialogWidget" maximizable="true">
+        <p:ajax event="close" listener="#{enderecoBean.reset}" />
+        <p:outputPanel id="createEnderecoPanel">
+                <h:form id="createEnderecoForm">
+                    <ui:include src="/pages/endereco/enderecoEditInclude.xhtml">
+                        <ui:param name="hidePessoaSelectInput" value="true" />
+                    </ui:include>
+                    <div style="text-align: center; margin: 10px">
+                        <p:commandButton
+                            action="#{pessoaBean.updateEndereco(enderecoBean.endereco)}"
+                            value="#{messages.label_save}" icon="ui-icon-disk"
+                            actionListener="#{enderecoBean.persist}"
+                            update=":pessoaEnderecosPanel :createEnderecoPanel :growlForm:growl"
+                            oncomplete="if(!args.validationFailed) PF('createEnderecoDialogWidget').hide()" />
+                        <p:commandButton value="#{messages.label_close}"
+                            icon="ui-icon-close"
+                            onclick="PF('createEnderecoDialogWidget').hide()"
+                            type="button" />
+                    </div>
+                </h:form>
+            </p:outputPanel>
+    </p:dialog>
+    
+  </ui:define>
+  
+</ui:composition>
+</html>

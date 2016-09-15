@@ -31,7 +31,7 @@ public class CameraEntity extends BaseEntity implements Serializable {
     @JoinTable(name="CAMERA_ESTABELECIMENTOS",
               joinColumns={@JoinColumn(name="CAMERA_ID", referencedColumnName="ID")},
               inverseJoinColumns={@JoinColumn(name="ESTABELECIMENTO_ID", referencedColumnName="ID")})
-    private List<EstabelecimentoEntity> estabelecimentos;
+    private List<EmpresaEntity> estabelecimentos;
 
     public void setImagemCameras(List<ImagemCameraEntity> imagemCameras) {
         this.imagemCameras = imagemCameras;
@@ -60,12 +60,12 @@ public class CameraEntity extends BaseEntity implements Serializable {
         this.descricao = descricao;
     }
 
-    public List<EstabelecimentoEntity> getEstabelecimentos() {
+    public List<EmpresaEntity> getEstabelecimentos() {
         return estabelecimentos;
     }
 
-    public void setEstabelecimentos(List<EstabelecimentoEntity> estabelecimentos) {
-        this.estabelecimentos = estabelecimentos;
+    public void setEstabelecimentos(List<EmpresaEntity> empresas) {
+        this.estabelecimentos = empresas;
     }
 
 }

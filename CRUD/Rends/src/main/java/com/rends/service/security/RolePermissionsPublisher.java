@@ -40,13 +40,13 @@ public class RolePermissionsPublisher {
             
             rolePermissionService.save(new RolePermission(UserRole.Registered, "pessoa:delete"));
             
-            rolePermissionService.save(new RolePermission(UserRole.Administrator, "estabelecimento:create"));
+            rolePermissionService.save(new RolePermission(UserRole.Administrator, "empresa:create"));
             
-            rolePermissionService.save(new RolePermission(UserRole.Administrator, "estabelecimento:read"));
+            rolePermissionService.save(new RolePermission(UserRole.Administrator, "empresa:read"));
             
-            rolePermissionService.save(new RolePermission(UserRole.Administrator, "estabelecimento:update"));
+            rolePermissionService.save(new RolePermission(UserRole.Administrator, "empresa:update"));
             
-            rolePermissionService.save(new RolePermission(UserRole.Administrator, "estabelecimento:delete"));
+            rolePermissionService.save(new RolePermission(UserRole.Administrator, "empresa:delete"));
             
             rolePermissionService.save(new RolePermission(UserRole.Administrator, "automovelTipo:create"));
             
@@ -88,21 +88,21 @@ public class RolePermissionsPublisher {
             
             rolePermissionService.save(new RolePermission(UserRole.Registered, "pessoaAutomovel:delete"));
             
-            rolePermissionService.save(new RolePermission(UserRole.Administrator, "estabelecimentoVisita:create"));
+            rolePermissionService.save(new RolePermission(UserRole.Administrator, "acessosRegistros:create"));
             
-            rolePermissionService.save(new RolePermission(UserRole.Administrator, "estabelecimentoVisita:read"));
+            rolePermissionService.save(new RolePermission(UserRole.Administrator, "acessosRegistros:read"));
             
-            rolePermissionService.save(new RolePermission(UserRole.Administrator, "estabelecimentoVisita:update"));
+            rolePermissionService.save(new RolePermission(UserRole.Administrator, "acessosRegistros:update"));
             
-            rolePermissionService.save(new RolePermission(UserRole.Administrator, "estabelecimentoVisita:delete"));
+            rolePermissionService.save(new RolePermission(UserRole.Administrator, "acessosRegistros:delete"));
             
-            rolePermissionService.save(new RolePermission(UserRole.Registered, "estabelecimentoVisita:create"));
+            rolePermissionService.save(new RolePermission(UserRole.Registered, "acessosRegistros:create"));
             
-            rolePermissionService.save(new RolePermission(UserRole.Registered, "estabelecimentoVisita:read"));
+            rolePermissionService.save(new RolePermission(UserRole.Registered, "acessosRegistros:read"));
             
-            rolePermissionService.save(new RolePermission(UserRole.Registered, "estabelecimentoVisita:update"));
+            rolePermissionService.save(new RolePermission(UserRole.Registered, "acessosRegistros:update"));
             
-            rolePermissionService.save(new RolePermission(UserRole.Registered, "estabelecimentoVisita:delete"));
+            rolePermissionService.save(new RolePermission(UserRole.Registered, "acessosRegistros:delete"));
             
             rolePermissionService.save(new RolePermission(UserRole.Administrator, "camera:create"));
             
@@ -144,21 +144,37 @@ public class RolePermissionsPublisher {
             
             rolePermissionService.save(new RolePermission(UserRole.Registered, "imagemCamera:delete"));
             
-            rolePermissionService.save(new RolePermission(UserRole.Administrator, "permissaoEstabelecimentoPessoa:create"));
+            rolePermissionService.save(new RolePermission(UserRole.Administrator, "acessosPermissao:create"));
             
-            rolePermissionService.save(new RolePermission(UserRole.Administrator, "permissaoEstabelecimentoPessoa:read"));
+            rolePermissionService.save(new RolePermission(UserRole.Administrator, "acessosPermissao:read"));
             
-            rolePermissionService.save(new RolePermission(UserRole.Administrator, "permissaoEstabelecimentoPessoa:update"));
+            rolePermissionService.save(new RolePermission(UserRole.Administrator, "acessosPermissao:update"));
             
-            rolePermissionService.save(new RolePermission(UserRole.Administrator, "permissaoEstabelecimentoPessoa:delete"));
+            rolePermissionService.save(new RolePermission(UserRole.Administrator, "acessosPermissao:delete"));
             
-            rolePermissionService.save(new RolePermission(UserRole.Registered, "permissaoEstabelecimentoPessoa:create"));
+            rolePermissionService.save(new RolePermission(UserRole.Registered, "acessosPermissao:create"));
             
-            rolePermissionService.save(new RolePermission(UserRole.Registered, "permissaoEstabelecimentoPessoa:read"));
+            rolePermissionService.save(new RolePermission(UserRole.Registered, "acessosPermissao:read"));
             
-            rolePermissionService.save(new RolePermission(UserRole.Registered, "permissaoEstabelecimentoPessoa:update"));
+            rolePermissionService.save(new RolePermission(UserRole.Registered, "acessosPermissao:update"));
             
-            rolePermissionService.save(new RolePermission(UserRole.Registered, "permissaoEstabelecimentoPessoa:delete"));
+            rolePermissionService.save(new RolePermission(UserRole.Registered, "acessosPermissao:delete"));
+            
+            rolePermissionService.save(new RolePermission(UserRole.Administrator, "endereco:create"));
+            
+            rolePermissionService.save(new RolePermission(UserRole.Administrator, "endereco:read"));
+            
+            rolePermissionService.save(new RolePermission(UserRole.Administrator, "endereco:update"));
+            
+            rolePermissionService.save(new RolePermission(UserRole.Administrator, "endereco:delete"));
+            
+            rolePermissionService.save(new RolePermission(UserRole.Registered, "endereco:create"));
+            
+            rolePermissionService.save(new RolePermission(UserRole.Registered, "endereco:read"));
+            
+            rolePermissionService.save(new RolePermission(UserRole.Registered, "endereco:update"));
+            
+            rolePermissionService.save(new RolePermission(UserRole.Registered, "endereco:delete"));
             
             rolePermissionService.save(new RolePermission(UserRole.Administrator, "user:*"));
             

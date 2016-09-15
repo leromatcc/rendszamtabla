@@ -138,12 +138,12 @@ public class UserService extends BaseService<UserEntity> implements Serializable
                 switch (filterProperty) {
                 
                 case "username":
-                    query.append(nextConnective).append("username LIKE :username");
+                    query.append(nextConnective).append(" o.username LIKE :username");
                     queryParameters.put("username", "%" + filters.get(filterProperty) + "%");
                     break;
                 
                 case "email":
-                    query.append(nextConnective).append("email LIKE :email");
+                    query.append(nextConnective).append(" o.email LIKE :email");
                     queryParameters.put("email", "%" + filters.get(filterProperty) + "%");
                     break;
                     

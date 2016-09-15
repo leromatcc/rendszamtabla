@@ -1,0 +1,175 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:o="http://omnifaces.org/ui">
+<ui:composition template="/templates/layout.xhtml">
+  <ui:define name="content">
+
+    <h:form prependId="false" id="enderecoDataForm" onkeypress="if (event.keyCode == 13) {return false; }">
+
+        <p:dataTable id="enderecoTable" value="#{enderecoBean.enderecoList}" var="endereco" resizableColumns="true" paginator="true"
+                paginatorTemplate=" {CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                rowsPerPageTemplate="5,10,25,50" rows="10" draggableColumns="true"
+                paginatorPosition="bottom" widgetVar="enderecoTable" emptyMessage="#{messages.label_no_records_found}"
+                reflow="true">
+        
+          <f:facet name="header" >
+
+              <p:commandButton value="#{messages.create_new_endereco}" icon="ui-icon-plusthick"
+                      action="/pages/endereco/enderecoCreate?faces-redirect=true"
+                      rendered="#{enderecoBean.isPermitted('endereco:create')}" style="float:left" />
+              
+              <p:commandButton id="toggler" type="button" value="#{messages.table_select_columns}" icon="ui-icon-calculator" />
+              <p:columnToggler datasource="enderecoTable" trigger="toggler" />
+          </f:facet>
+          
+          <p:column  headerText="#{messages.field_label_endereco_descricao}" sortBy="#{endereco.descricao}" filterBy="#{endereco.descricao}">
+            <f:facet name="filter">
+                <p:inputText id="descricaoFilter"
+                        onkeypress="if (event.keyCode == 13) {PF('enderecoTable').filter(); updateDescricaoFilter(); return false; }" >
+                    <p:remoteCommand name="updateDescricaoFilter" update="enderecoTable:descricaoFilter" />
+                </p:inputText>
+            </f:facet>
+            <h:outputText value="#{endereco.descricao}" />
+          </p:column>
+
+          <p:column  headerText="#{messages.field_label_endereco_cidade}" sortBy="#{endereco.cidade}" filterBy="#{endereco.cidade}">
+            <f:facet name="filter">
+                <p:inputText id="cidadeFilter"
+                        onkeypress="if (event.keyCode == 13) {PF('enderecoTable').filter(); updateCidadeFilter(); return false; }" >
+                    <p:remoteCommand name="updateCidadeFilter" update="enderecoTable:cidadeFilter" />
+                </p:inputText>
+            </f:facet>
+            <h:outputText value="#{endereco.cidade}" />
+          </p:column>
+
+          <p:column  headerText="#{messages.field_label_endereco_estado}" sortBy="#{endereco.estado}" filterBy="#{endereco.estado}">
+            <f:facet name="filter">
+                <p:inputText id="estadoFilter"
+                        onkeypress="if (event.keyCode == 13) {PF('enderecoTable').filter(); updateEstadoFilter(); return false; }" >
+                    <p:remoteCommand name="updateEstadoFilter" update="enderecoTable:estadoFilter" />
+                </p:inputText>
+            </f:facet>
+            <h:outputText value="#{endereco.estado}" />
+          </p:column>
+
+          <p:column  headerText="#{messages.field_label_endereco_pais}" sortBy="#{endereco.pais}" filterBy="#{endereco.pais}">
+            <f:facet name="filter">
+                <p:inputText id="paisFilter"
+                        onkeypress="if (event.keyCode == 13) {PF('enderecoTable').filter(); updatePaisFilter(); return false; }" >
+                    <p:remoteCommand name="updatePaisFilter" update="enderecoTable:paisFilter" />
+                </p:inputText>
+            </f:facet>
+            <h:outputText value="#{endereco.pais}" />
+          </p:column>
+
+          <p:column  headerText="#{messages.field_label_endereco_cep}" sortBy="#{endereco.cep}" filterBy="#{endereco.cep}">
+            <f:facet name="filter">
+                <p:inputText id="cepFilter"
+                        onkeypress="if (event.keyCode == 13) {PF('enderecoTable').filter(); updateCepFilter(); return false; }" >
+                    <p:remoteCommand name="updateCepFilter" update="enderecoTable:cepFilter" />
+                </p:inputText>
+            </f:facet>
+            <h:outputText value="#{endereco.cep}" />
+          </p:column>
+
+          <p:column  headerText="#{messages.field_label_endereco_logradouro}" sortBy="#{endereco.logradouro}" filterBy="#{endereco.logradouro}">
+            <f:facet name="filter">
+                <p:inputText id="logradouroFilter"
+                        onkeypress="if (event.keyCode == 13) {PF('enderecoTable').filter(); updateLogradouroFilter(); return false; }" >
+                    <p:remoteCommand name="updateLogradouroFilter" update="enderecoTable:logradouroFilter" />
+                </p:inputText>
+            </f:facet>
+            <h:outputText value="#{endereco.logradouro}" />
+          </p:column>
+
+          <p:column  headerText="#{messages.field_label_endereco_numero}" sortBy="#{endereco.numero}" filterBy="#{endereco.numero}">
+            <f:facet name="filter">
+                <p:inputText id="numeroFilter"
+                        onkeypress="if (event.keyCode == 13) {PF('enderecoTable').filter(); updateNumeroFilter(); return false; }" >
+                    <p:remoteCommand name="updateNumeroFilter" update="enderecoTable:numeroFilter" />
+                </p:inputText>
+            </f:facet>
+            <h:outputText value="#{endereco.numero}" />
+          </p:column>
+
+          <p:column headerText="#{messages.field_label_endereco_tipo}"
+                    sortBy="#{endereco.tipo}" filterBy="#{endereco.tipo}">
+              <f:facet name="filter">
+                  <p:selectOneMenu id="tipoFilter"
+                                  style="width:145px;"
+                                  onchange="PF('enderecoTable').filter(); return false;" >
+                      <f:selectItem noSelectionOption="true" itemLabel="" />
+                      <f:selectItems value="#{enderecoBean.tipoSelectItems}" />
+                  </p:selectOneMenu>
+              </f:facet>
+              <h:outputText value="#{enderecoBean.getLabelForTipo(endereco.tipo)}" />
+          </p:column>
+
+          <p:column  headerText="#{messages.field_label_endereco_complemento}" sortBy="#{endereco.complemento}" filterBy="#{endereco.complemento}">
+            <f:facet name="filter">
+                <p:inputText id="complementoFilter"
+                        onkeypress="if (event.keyCode == 13) {PF('enderecoTable').filter(); updateComplementoFilter(); return false; }" >
+                    <p:remoteCommand name="updateComplementoFilter" update="enderecoTable:complementoFilter" />
+                </p:inputText>
+            </f:facet>
+            <h:outputText value="#{endereco.complemento}" />
+          </p:column>
+
+          <p:column  headerText="#{messages.field_label_endereco_referencia}" sortBy="#{endereco.referencia}" filterBy="#{endereco.referencia}">
+            <f:facet name="filter">
+                <p:inputText id="referenciaFilter"
+                        onkeypress="if (event.keyCode == 13) {PF('enderecoTable').filter(); updateReferenciaFilter(); return false; }" >
+                    <p:remoteCommand name="updateReferenciaFilter" update="enderecoTable:referenciaFilter" />
+                </p:inputText>
+            </f:facet>
+            <h:outputText value="#{endereco.referencia}" />
+          </p:column>
+
+          <p:column styleClass="action-column" headerText="#{messages.table_actions_column}" width="115" exportable="false">
+            
+            <p:commandButton action="#{'/pages/endereco/enderecoView?faces-redirect=true&amp;id='.concat(endereco.id)}"
+                icon="ui-icon-zoomin"
+                title="#{messages.label_view}" />
+            
+            <p:commandButton action="#{'/pages/endereco/enderecoEdit?faces-redirect=true&amp;id='.concat(endereco.id)}"
+                icon="ui-icon-pencil"
+                resetValues="true"
+                rendered="#{enderecoBean.isPermitted(endereco, 'endereco:update')}"
+                title="#{messages.label_edit}" />
+                
+            <p:commandButton icon="ui-icon-close" rendered="#{enderecoBean.isPermitted(endereco, 'endereco:delete')}"
+                oncomplete="PF('deleteEnderecoDialogWidget').show()"
+                title="#{messages.label_delete}" >
+                <f:setPropertyActionListener value="#{endereco}"
+                    target="#{enderecoBean.endereco}" />
+            </p:commandButton>
+    
+          </p:column>
+          
+        </p:dataTable>
+        
+    </h:form>
+
+    <p:confirmDialog id="deleteEnderecoDialog" widgetVar="deleteEnderecoDialogWidget"
+        rendered="#{enderecoBean.isPermitted(enderecoBean.endereco, 'endereco:delete')}" header="#{messages.label_confirm_deletion}"
+        severity="alarm">
+        <f:facet name="message"><h:outputText value="#{messages.label_delete_record}" escape="false"/></f:facet>
+        <p:outputPanel>
+          <h:form>
+            <div style="text-align: center; margin:10px">
+              <p:commandButton value="#{messages.label_yes}" action="#{enderecoBean.delete}" update=":enderecoDataForm :growlForm:growl" oncomplete="PF('deleteEnderecoDialogWidget').hide()" />
+              <p:commandButton value="#{messages.label_no}" onclick="PF('deleteEnderecoDialogWidget').hide()" type="button" />
+            </div>
+          </h:form>
+        </p:outputPanel>
+    </p:confirmDialog>
+    
+  </ui:define>
+</ui:composition>
+</html>

@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:o="http://omnifaces.org/ui">
+
+    <p:outputPanel styleClass="ui-fluid" rendered="#{not enderecoBean.isPermitted(enderecoBean.endereco, 'endereco:read')}">
+        <h:outputText value="#{messages.access_denied}" />
+    </p:outputPanel>
+    
+    <h:panelGrid columns="2" styleClass="dialog" columnClasses="col1,col2" rendered="#{enderecoBean.isPermitted(enderecoBean.endereco, 'endereco:read')}">
+        
+        <h:outputText value="#{messages.field_label_endereco_descricao}:" />
+        <h:outputText value="#{enderecoBean.endereco.descricao}" />
+
+        <h:outputText value="#{messages.field_label_endereco_cidade}:" />
+        <h:outputText value="#{enderecoBean.endereco.cidade}" />
+
+        <h:outputText value="#{messages.field_label_endereco_estado}:" />
+        <h:outputText value="#{enderecoBean.endereco.estado}" />
+
+        <h:outputText value="#{messages.field_label_endereco_pais}:" />
+        <h:outputText value="#{enderecoBean.endereco.pais}" />
+
+        <h:outputText value="#{messages.field_label_endereco_cep}:" />
+        <h:outputText value="#{enderecoBean.endereco.cep}" />
+
+        <h:outputText value="#{messages.field_label_endereco_logradouro}:" />
+        <h:outputText value="#{enderecoBean.endereco.logradouro}" />
+
+        <h:outputText value="#{messages.field_label_endereco_numero}:" />
+        <h:outputText value="#{enderecoBean.endereco.numero}" />
+
+        <h:outputText value="#{messages.field_label_endereco_tipo}:" />
+        <h:outputText value="#{enderecoBean.getLabelForTipo(enderecoBean.endereco.tipo)}" />
+
+        <h:outputText value="#{messages.field_label_endereco_complemento}:" />
+        <h:outputText value="#{enderecoBean.endereco.complemento}" />
+
+        <h:outputText value="#{messages.field_label_endereco_referencia}:" />
+        <h:outputText value="#{enderecoBean.endereco.referencia}" />
+
+    </h:panelGrid>
+</html>

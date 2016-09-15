@@ -16,15 +16,29 @@
                     label="#{messages.field_label_pessoa_nome}" />
                 <p:message for="nomeEditInput" display="icon" />
 
-                <h:outputLabel value="#{messages.field_label_pessoa_endereco}:" for="enderecoEditInput" />
-                <p:inputText value="#{pessoaBean.pessoa.endereco}" id="enderecoEditInput" 
-                    label="#{messages.field_label_pessoa_endereco}" />
-                <p:message for="enderecoEditInput" display="icon" />
+                <h:outputLabel value="#{messages.field_label_pessoa_documento}:" for="documentoEditInput" />
+                <p:inputText value="#{pessoaBean.pessoa.documento}" id="documentoEditInput" 
+                    label="#{messages.field_label_pessoa_documento}" />
+                <p:message for="documentoEditInput" display="icon" />
 
-                <h:outputLabel value="#{messages.field_label_pessoa_idade}:" for="idadeEditInput" />
-                <p:inputText value="#{pessoaBean.pessoa.idade}" id="idadeEditInput" 
-                    label="#{messages.field_label_pessoa_idade}" />
-                <p:message for="idadeEditInput" display="icon" />
+                <h:outputLabel value="#{messages.field_label_pessoa_documentoTipo}:" for="documentoTipoSelect" />
+                <p:selectOneMenu value="#{pessoaBean.pessoa.documentoTipo}" converter="omnifaces.GenericEnumConverter"  id="documentoTipoSelect">
+                    <f:selectItem noSelectionOption="true" itemLabel="" />
+                    <f:selectItems value="#{pessoaBean.documentoTipoSelectItems}" />
+                </p:selectOneMenu>
+                <p:message for="documentoTipoSelect" display="icon" />
+
+                <h:outputLabel value="#{messages.field_label_pessoa_telefone}:" for="telefoneEditInput" />
+                <p:inputText value="#{pessoaBean.pessoa.telefone}" id="telefoneEditInput" 
+                    label="#{messages.field_label_pessoa_telefone}" />
+                <p:message for="telefoneEditInput" display="icon" />
+
+                <h:outputLabel value="#{messages.field_label_pessoa_telefoneTIpo}:" for="telefoneTIpoSelect" />
+                <p:selectOneMenu value="#{pessoaBean.pessoa.telefoneTIpo}" converter="omnifaces.GenericEnumConverter"  id="telefoneTIpoSelect">
+                    <f:selectItem noSelectionOption="true" itemLabel="" />
+                    <f:selectItems value="#{pessoaBean.telefoneTIpoSelectItems}" />
+                </p:selectOneMenu>
+                <p:message for="telefoneTIpoSelect" display="icon" />
 
             </p:panelGrid>
 

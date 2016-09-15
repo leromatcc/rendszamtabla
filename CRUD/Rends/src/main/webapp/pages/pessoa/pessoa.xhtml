@@ -38,26 +38,58 @@
             <h:outputText value="#{pessoa.nome}" />
           </p:column>
 
-          <p:column  headerText="#{messages.field_label_pessoa_endereco}" sortBy="#{pessoa.endereco}" filterBy="#{pessoa.endereco}">
+          <p:column  headerText="#{messages.field_label_pessoa_documento}" sortBy="#{pessoa.documento}" filterBy="#{pessoa.documento}">
             <f:facet name="filter">
-                <p:inputText id="enderecoFilter"
-                        onkeypress="if (event.keyCode == 13) {PF('pessoaTable').filter(); updateEnderecoFilter(); return false; }" >
-                    <p:remoteCommand name="updateEnderecoFilter" update="pessoaTable:enderecoFilter" />
+                <p:inputText id="documentoFilter"
+                        onkeypress="if (event.keyCode == 13) {PF('pessoaTable').filter(); updateDocumentoFilter(); return false; }" >
+                    <p:remoteCommand name="updateDocumentoFilter" update="pessoaTable:documentoFilter" />
                 </p:inputText>
             </f:facet>
-            <h:outputText value="#{pessoa.endereco}" />
+            <h:outputText value="#{pessoa.documento}" />
           </p:column>
 
-          <p:column  headerText="#{messages.field_label_pessoa_idade}" sortBy="#{pessoa.idade}" filterBy="#{pessoa.idade}">
+          <p:column headerText="#{messages.field_label_pessoa_documentoTipo}"
+                    sortBy="#{pessoa.documentoTipo}" filterBy="#{pessoa.documentoTipo}">
+              <f:facet name="filter">
+                  <p:selectOneMenu id="documentoTipoFilter"
+                                  style="width:145px;"
+                                  onchange="PF('pessoaTable').filter(); return false;" >
+                      <f:selectItem noSelectionOption="true" itemLabel="" />
+                      <f:selectItems value="#{pessoaBean.documentoTipoSelectItems}" />
+                  </p:selectOneMenu>
+              </f:facet>
+              <h:outputText value="#{pessoaBean.getLabelForDocumentoTipo(pessoa.documentoTipo)}" />
+          </p:column>
+
+          <p:column  headerText="#{messages.field_label_pessoa_telefone}" sortBy="#{pessoa.telefone}" filterBy="#{pessoa.telefone}">
             <f:facet name="filter">
-                <p:inputText id="idadeFilter"
-                        onkeypress="if (event.keyCode == 13) {PF('pessoaTable').filter(); updateIdadeFilter(); return false; }" >
-                    <p:remoteCommand name="updateIdadeFilter" update="pessoaTable:idadeFilter" />
+                <p:inputText id="telefoneFilter"
+                        onkeypress="if (event.keyCode == 13) {PF('pessoaTable').filter(); updateTelefoneFilter(); return false; }" >
+                    <p:remoteCommand name="updateTelefoneFilter" update="pessoaTable:telefoneFilter" />
                 </p:inputText>
             </f:facet>
-            <h:outputText value="#{pessoa.idade}" />
+            <h:outputText value="#{pessoa.telefone}" />
           </p:column>
 
+          <p:column headerText="#{messages.field_label_pessoa_telefoneTIpo}"
+                    sortBy="#{pessoa.telefoneTIpo}" filterBy="#{pessoa.telefoneTIpo}">
+              <f:facet name="filter">
+                  <p:selectOneMenu id="telefoneTIpoFilter"
+                                  style="width:145px;"
+                                  onchange="PF('pessoaTable').filter(); return false;" >
+                      <f:selectItem noSelectionOption="true" itemLabel="" />
+                      <f:selectItems value="#{pessoaBean.telefoneTIpoSelectItems}" />
+                  </p:selectOneMenu>
+              </f:facet>
+              <h:outputText value="#{pessoaBean.getLabelForTelefoneTIpo(pessoa.telefoneTIpo)}" />
+          </p:column>
+
+          <p:column headerText="#{messages.field_label_pessoa_endereco_plural}" styleClass="action-column" exportable="false">
+            
+            <p:commandButton icon="ui-icon-transfer-e-w"  title="#{messages.field_label_pessoa_endereco_plural}" action="#{'/pages/pessoa/pessoaEndereco?faces-redirect=true&amp;id='.concat(pessoa.id)}" />
+            
+          </p:column>
+          
           <p:column styleClass="action-column" headerText="#{messages.table_actions_column}" width="115" exportable="false">
             
             <p:commandButton action="#{'/pages/pessoa/pessoaView?faces-redirect=true&amp;id='.concat(pessoa.id)}"
