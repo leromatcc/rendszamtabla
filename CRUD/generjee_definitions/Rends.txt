@@ -453,12 +453,12 @@
         },
         {
           "id": 2,
-          "name": "estacionamento",
+          "name": "estabelecimento",
           "type": "Relation",
           "editable": true,
           "showInTable": true,
           "referenceType": "1:1",
-          "referenceEntity": "Pessoa"
+          "referenceEntity": "Estabelecimento"
         },
         {
           "id": 3,
@@ -471,7 +471,7 @@
         },
         {
           "id": 4,
-          "name": "AcessoAutorizado",
+          "name": "acessoAutorizado",
           "type": "Boolean",
           "editable": true,
           "showInTable": true,
