@@ -7,6 +7,8 @@ import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.Size;
@@ -24,6 +26,12 @@ public class CameraEntity extends BaseEntity implements Serializable {
     @Size(max = 100)
     @Column(length = 100, name="\"descricao\"")
     private String descricao;
+
+    @ManyToMany(fetch=FetchType.LAZY, cascade = CascadeType.DETACH)
+    @JoinTable(name="CAMERA_ESTABELECIMENTOS",
+              joinColumns={@JoinColumn(name="CAMERA_ID", referencedColumnName="ID")},
+              inverseJoinColumns={@JoinColumn(name="ESTABELECIMENTO_ID", referencedColumnName="ID")})
+    private List<EstabelecimentoEntity> estabelecimentos;
 
     public void setImagemCameras(List<ImagemCameraEntity> imagemCameras) {
         this.imagemCameras = imagemCameras;
@@ -50,6 +58,14 @@ public class CameraEntity extends BaseEntity implements Serializable {
 
     public void setDescricao(String descricao) {
         this.descricao = descricao;
+    }
+
+    public List<EstabelecimentoEntity> getEstabelecimentos() {
+        return estabelecimentos;
+    }
+
+    public void setEstabelecimentos(List<EstabelecimentoEntity> estabelecimentos) {
+        this.estabelecimentos = estabelecimentos;
     }
 
 }

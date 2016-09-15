@@ -48,6 +48,12 @@
             <h:outputText value="#{camera.descricao}" />
           </p:column>
 
+          <p:column headerText="#{messages.field_label_camera_estabelecimento_plural}" styleClass="action-column" exportable="false">
+            
+            <p:commandButton icon="ui-icon-transfer-e-w"  title="#{messages.field_label_camera_estabelecimento_plural}" action="#{'/pages/camera/cameraEstabelecimento?faces-redirect=true&amp;id='.concat(camera.id)}" />
+            
+          </p:column>
+          
           <p:column styleClass="action-column" headerText="#{messages.table_actions_column}" width="115" exportable="false">
             
             <p:commandButton action="#{'/pages/camera/cameraView?faces-redirect=true&amp;id='.concat(camera.id)}"

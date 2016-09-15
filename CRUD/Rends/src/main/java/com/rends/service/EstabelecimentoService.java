@@ -1,5 +1,6 @@
 package com.rends.service;
 
+import com.rends.domain.CameraEntity;
 import com.rends.domain.EstabelecimentoEntity;
 import com.rends.domain.EstabelecimentoVisitaEntity;
 
@@ -48,6 +49,16 @@ public class EstabelecimentoService extends BaseService<EstabelecimentoEntity> i
                 .setParameter("p", estabelecimento).executeUpdate();
     }
     
+    @Transactional
+    public List<EstabelecimentoEntity> findAvailableEstabelecimentos(CameraEntity camera) {
+        return entityManager.createQuery("SELECT o FROM Estabelecimento o where o.id not in (select o.id from Estabelecimento o join o.cameras p where p = :p)", EstabelecimentoEntity.class).setParameter("p", camera).getResultList();
+    }
+
+    @Transactional
+    public List<EstabelecimentoEntity> findEstabelecimentosByCamera(CameraEntity camera) {
+        return entityManager.createQuery("SELECT o FROM Estabelecimento o where o.id in (select o.id from Estabelecimento o join o.cameras p where p = :p)", EstabelecimentoEntity.class).setParameter("p", camera).getResultList();
+    }
+
     // Find all estabelecimentoVisita which are not yet assigned to a estabelecimento
     @Transactional
     public List<EstabelecimentoEntity> findAvailableEstabelecimento(EstabelecimentoVisitaEntity estabelecimentoVisita) {
