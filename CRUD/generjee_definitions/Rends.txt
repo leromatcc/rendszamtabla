@@ -696,6 +696,105 @@
           "referenceEntity": "Camera"
         }
       ]
+    },
+    {
+      "name": "PermissaoEstabelecimentoPessoa",
+      "id": 11,
+      "lookupField": "1",
+      "aclEnabled": true,
+      "authorization": [
+        {
+          "roleId": 1,
+          "roleName": "Administrator",
+          "createPerm": 1,
+          "readPerm": 1,
+          "updatePerm": 1,
+          "deletePerm": 1,
+          "changeOwnerPerm": 1,
+          "ownerRoleEnabled": false
+        },
+        {
+          "roleId": 2,
+          "roleName": "Public",
+          "createPerm": "0",
+          "readPerm": "0",
+          "updatePerm": "0",
+          "deletePerm": "0",
+          "changeOwnerPerm": 0,
+          "ownerRoleEnabled": false
+        },
+        {
+          "roleId": "registered001",
+          "roleName": "Registered",
+          "createPerm": 1,
+          "readPerm": 1,
+          "updatePerm": 1,
+          "deletePerm": 1,
+          "changeOwnerPerm": 0,
+          "ownerRoleEnabled": false
+        }
+      ],
+      "fields": [
+        {
+          "id": 0,
+          "name": "id",
+          "type": "Autoincremented ID",
+          "editable": false,
+          "showInTable": false,
+          "required": true
+        },
+        {
+          "id": 1,
+          "name": "descricao",
+          "type": "String",
+          "editable": true,
+          "showInTable": true,
+          "stringLength": 50,
+          "required": false
+        },
+        {
+          "id": 2,
+          "name": "pessoa",
+          "type": "Relation",
+          "editable": true,
+          "showInTable": true,
+          "referenceType": "n:m",
+          "referenceEntity": "Pessoa"
+        },
+        {
+          "id": 3,
+          "name": "estabelecimento",
+          "type": "Relation",
+          "editable": true,
+          "showInTable": true,
+          "referenceType": "1:1",
+          "referenceEntity": "Estabelecimento"
+        },
+        {
+          "id": 4,
+          "name": "dataInicio",
+          "type": "Date",
+          "editable": true,
+          "showInTable": true,
+          "required": false
+        },
+        {
+          "id": 5,
+          "name": "dataFinal",
+          "type": "Date",
+          "editable": true,
+          "showInTable": true,
+          "required": false
+        },
+        {
+          "id": 6,
+          "name": "ativo",
+          "type": "Boolean",
+          "editable": true,
+          "showInTable": true,
+          "required": false
+        }
+      ]
     }
   ],
   "appSettings": {
