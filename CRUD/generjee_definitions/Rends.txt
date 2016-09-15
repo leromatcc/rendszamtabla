@@ -551,6 +551,15 @@
           "showInTable": true,
           "stringLength": "100",
           "required": false
+        },
+        {
+          "id": 4,
+          "name": "estabelecimento",
+          "type": "Relation",
+          "editable": true,
+          "showInTable": true,
+          "referenceType": "n:m",
+          "referenceEntity": "Estabelecimento"
         }
       ]
     },
