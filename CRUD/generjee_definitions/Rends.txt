@@ -485,6 +485,15 @@
           "showInTable": true,
           "referenceType": "1:1",
           "referenceEntity": "Automovel"
+        },
+        {
+          "id": 7,
+          "name": "permissaoAcesso",
+          "type": "Relation",
+          "editable": true,
+          "showInTable": true,
+          "referenceType": "n:m",
+          "referenceEntity": "PermissaoEstabelecimentoPessoa"
         }
       ]
     },
