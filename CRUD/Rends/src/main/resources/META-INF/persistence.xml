@@ -6,9 +6,19 @@ http://xmlns.jcp.org/xml/ns/persistence
 http://xmlns.jcp.org/xml/ns/persistence/persistence_2_1.xsd">
 
     <persistence-unit name="persistenceUnit" transaction-type="JTA">
-        <jta-data-source>java:comp/DefaultDataSource</jta-data-source>
+        <jta-data-source>java:/MyPizzaDS</jta-data-source>
+        <exclude-unlisted-classes>false</exclude-unlisted-classes>
+        
 	    <properties>
-	      <property name="javax.persistence.schema-generation.database.action" value="create"/>
+	        <property name="javax.persistence.schema-generation.database.action" value="drop-and-create"/>  
+	        <!-- 
+	        <property name="javax.persistence.schema-generation.database.action" value="create"/>  
+
+            <property name="hibernate.dialect" value="org.hibernate.dialect.MySQLDialect" />
+            <property name="hibernate.show_sql" value="true" />	      
+	         -->
 	    </properties>
     </persistence-unit>
 </persistence>
+
+
